@@ -7,7 +7,7 @@ import { AuthGuardService } from '../services/authguard.service';
 import { ShorcutsComponent } from './shorcuts.component';
 import { MypageComponent } from './mypage/mypage.component';
 import { PageHomeComponent } from './page-home/page-home.component';
-import { SharedModuleModule } from '../shared-module.module';
+import { SharedModuleModule } from '../shared.module';
 import { CreatePageComponent } from './create-page/create-page.component';
 import { RouteResolverService } from '../services/route-resolver.service';
 // import { LeftPanelComponent } from '../left-panel/left-panel.component';

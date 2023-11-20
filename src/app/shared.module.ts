@@ -6,19 +6,28 @@ import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ShortenPipe } from './shared/shorten.pipe';
 import { FilterPipe } from './shared/filter.pipe';
-import { FirebaseTestComponent } from './firebase-test/firebase-test.component';
-import { PlaceholderDirective } from './shared/placeholder.directive';
-import { AlertComponent } from './shared/alert.component';
 
 
 @NgModule({
-  declarations: [LeftPanelComponent, RightPanelComponent, PageNotFoundComponent, ShortenPipe, 
-                 FilterPipe, FirebaseTestComponent],
+  declarations: [
+    LeftPanelComponent,
+    RightPanelComponent,
+    PageNotFoundComponent,
+    ShortenPipe,
+    FilterPipe
+  ],
   imports: [
     CommonModule,
     RouterModule
   ],
- 
-  exports: [LeftPanelComponent, RightPanelComponent, PageNotFoundComponent, ShortenPipe, FilterPipe, CommonModule]
+
+  exports: [
+    LeftPanelComponent,
+    RightPanelComponent,
+    PageNotFoundComponent,
+    ShortenPipe,
+    FilterPipe,
+    CommonModule
+  ]
 })
-export class SharedModuleModule { }
+export class SharedModule { }

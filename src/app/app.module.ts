@@ -83,10 +83,7 @@ import { LandingPageServService } from './landingpage/landing-page-serv.service'
   ],
 
   bootstrap: [AppComponent],
-  entryComponents: [
-    AlertComponent
-  ],
-  exports: [ScrollServiceService, ScrollToService]
+  exports: []
 
 })
 export class AppModule { }

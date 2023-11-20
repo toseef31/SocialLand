@@ -17,7 +17,7 @@ import { CreateQuestionairComponent } from './create-questionair/create-question
 import { CreatePageComponent } from '../LeftBarShortcuts/create-page/create-page.component';
 import { AllPostsComponent } from './all-posts/all-posts.component';
 import { AppRoutingModule } from '../app-routing.module';
-import { SharedModuleModule } from '../shared-module.module';
+import { SharedModuleModule } from '../shared.module';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './groups/group/group.component';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
