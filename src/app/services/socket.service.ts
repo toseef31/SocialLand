@@ -1,50 +1,47 @@
-import * as io from 'socket.io-client';
+import { io } from "socket.io-client";
 import { Observable } from 'rxjs';
-import { SessionStorageService } from 'angular-web-storage';
 import { Injectable } from '@angular/core';
 
-// [*** SOCKET-IO SERVICE ****]
-// Posts, Likes, Comments, Replies and Friends Request are using this service
-// "Backend Connector Service" calls below 'emitters' after receiving Response from Backend
+
 @Injectable()
 export class SocketService {
 
     private url = 'http://localhost:3000';
     private socket;
 
-    constructor(private session: SessionStorageService) {
+    constructor() {
         this.socket = io(this.url);
     }
-
+   
     // ************************ EMITTERS ***********************************
 
-    public sendPost(post) {
+    public sendPost(post: any) {
         this.socket.emit('new-post', post);
     }
 
-    public sendTimelinePost(timelinepost) {
+    public sendTimelinePost(timelinepost: any) {
         this.socket.emit('new-timeline-post', timelinepost);
     }
 
-    public sendFriendRequest(friendrequest) {
+    public sendFriendRequest(friendrequest: any) {
         this.socket.emit('add-friend', friendrequest);
     }
 
-    public sendLikes(likes) {
+    public sendLikes(likes: any) {
         this.socket.emit('set-likes', likes);
     }
 
-    public sendComments(comments) {
+    public sendComments(comments: any) {
         this.socket.emit('set-comments', comments);
     }
 
-    public sendReplies(replies) {
+    public sendReplies(replies: any) {
         this.socket.emit('set-replies', replies);
     }
 
-    // ************************ OBSERVERS *********************************
+    // ************************ LISTENERS *********************************
     public getRequest = () => {
-        return Observable.create(
+        return new Observable(
             (observer) => {
                 this.socket.on('addfriend', (friendrequest) => {
                     observer.next(friendrequest);
@@ -53,21 +50,17 @@ export class SocketService {
     }
 
     public getPost = () => {
-        return Observable.create(
-            (observer) => { 
+        return new Observable(
+            (observer) => {
                 this.socket.on('new-post', (post) => {
                     observer.next(post);
                 });
-
-                // return () => {
-                //     this.socket.disconnect();
-                // }
             });
     }
 
     public getTimelinePost = () => {
-        return Observable.create(
-            (observer) => { 
+        return new Observable(
+            (observer) => {
                 this.socket.on('new-timeline-post', (timelinepost) => {
                     observer.next(timelinepost);
                 });
@@ -75,7 +68,7 @@ export class SocketService {
     }
 
     public getLikes = () => {
-        return Observable.create(
+        return new Observable(
             (observer) => {
                 this.socket.on('set-likes', (likes) => {
                     observer.next(likes);
@@ -85,7 +78,7 @@ export class SocketService {
     }
 
     public getComments = () => {
-        return Observable.create(
+        return new Observable(
             (observer) => {
                 this.socket.on('set-comments', (comments) => {
                     observer.next(comments);
@@ -94,7 +87,7 @@ export class SocketService {
     }
 
     public getReplies = () => {
-        return Observable.create(
+        return new Observable(
             (observer) => {
                 this.socket.on('set-replies', (replies) => {
                     observer.next(replies);
@@ -102,9 +95,5 @@ export class SocketService {
             }
         )
     }
-
-    // ngOnDestroy() {
-
-    // }
 
 } //*** Class Ends */

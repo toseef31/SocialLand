@@ -1,22 +1,21 @@
-import { Observable } from "rxjs";
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
+import { ActivatedRouteSnapshot, CanDeactivateFn, RouterStateSnapshot } from "@angular/router";
 
-// *** This Guard is used to check whether a user can go back or not, using browser back button ****
-
-export interface CanComponentDeactivate {
-   // canDeactivate: (url: string) => Observable<boolean> | Promise<boolean> | boolean;
-      canDeactivateInterface (url: string) : Observable<boolean> | Promise<boolean> | boolean;
+@Injectable({
+    providedIn: 'root'
+})
+class DeactivateGuard {
+    canDeactivate(
+        comp: any,
+        currentRoute: ActivatedRouteSnapshot,
+        currentState: RouterStateSnapshot,
+        nextState: RouterStateSnapshot
+    ) {
+        console.log("canDeactivate", comp);
+        return true;
+    }
 }
 
-@Injectable()
-export class DeactivateGuardService implements CanDeactivate<CanComponentDeactivate>{
-   
-    canDeactivate(component: CanComponentDeactivate, currentRouter: ActivatedRouteSnapshot,
-        currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        console.log(nextState.url);
-        console.log(component);
-        console.log("deActivate");
-            return component.canDeactivateInterface(nextState.url);
-    }
+export const deactivateGuard: CanDeactivateFn<boolean> = (comp: any, route: ActivatedRouteSnapshot, currentRoutestate: RouterStateSnapshot, nextRoutestate: RouterStateSnapshot): boolean => {
+    return inject(DeactivateGuard).canDeactivate(comp, route, currentRoutestate, nextRoutestate);
 }
