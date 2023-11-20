@@ -20,7 +20,11 @@ import { FilterPipe } from './shared/filter.pipe';
     CommonModule,
     RouterModule
   ],
-
+  providers: [
+    // {
+    //   provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    // }
+  ],
   exports: [
     LeftPanelComponent,
     RightPanelComponent,

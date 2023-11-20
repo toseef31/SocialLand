@@ -31,7 +31,6 @@ import { PropertyCheckDirective } from './directives/property-check.directive';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { RouteResolverService } from './services/route-resolver.service';
 import { ScrollServiceService } from './services/scroll-service.service';
-import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { ShortenPipe } from './shared/shorten.pipe';
 import { authInterceptorService } from './services/auth-interceptor.service';
 import { loggingInterceptorService } from './services/logging-interceptor.service';
