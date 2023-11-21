@@ -20,7 +20,6 @@ import { LoginStatusService } from './services/loginstatus.service';
 import { AuthGuardService } from './services/authguard.service';
 import { DeactivateGuardService } from './services/deactivateguard.service';
 import { AppRoutingModule } from './app-routing.module';
-import { NgxPopper } from 'angular-popper';
 import { SharedDataService } from './services/shareddata.service';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { HighlightDirective } from './directives/highlight.directive';
@@ -39,6 +38,10 @@ import { PlaceholderDirective } from './shared/placeholder.directive';
 import { StoreModule } from '@ngrx/store';
 import { landingpageReducer } from './landingpage/landingpage.reducer';
 import { LandingPageServService } from './landingpage/landing-page-serv.service';
+
+// import { EffectsModule } from '@ngrx/effects';
+// import { counterReducer, userReducer } from './_store/reducers/counter.reducer';
+// import { UpdateUserEffect } from './_store/effects/update-user.effects';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,6 @@ import { LandingPageServService } from './landingpage/landing-page-serv.service'
     AngularWebStorageModule,
     HttpClientModule,
     AppRoutingModule,
-    NgxPopper,
     StoreModule.forRoot({userGroups: landingpageReducer}, {})
   ],
 
