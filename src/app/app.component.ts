@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FirebaseDBService } from './services/firebase-db.service';
+import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,41 +9,22 @@ import { FirebaseDBService } from './services/firebase-db.service';
 })
 
 export class AppComponent {
+  loading: boolean = false;
+  loadingTxt: string = "Loading ...";
 
-  //collection : any;
+  constructor(private firebaseDB: FirebaseDBService, router: Router) {
+    // this.firebaseDB.autoLogin();
 
-  constructor(private firebaseDB: FirebaseDBService) {
-    //this.collection = [{id: 1}, {id: 2}, {id: 3}];
-    this.firebaseDB.autoLogin();
+    router.events.subscribe(
+      (event) => {
+        if (event instanceof RouteConfigLoadStart) {
+          this.loading = true;
+          this.loadingTxt = "Loading ...";
+        } else if (event instanceof RouteConfigLoadEnd) {
+          this.loading = false;
+          this.loadingTxt = "";
+        }
+      });
   }
-  
-  // getItems() {
-  //   this.collection = this.getItemsFromServer();
-  // }
-  
-  // getItemsFromServer() {
-  //   return [{id: 1}, {id: 22}, {id: 3}, {id: 4}];
-  // }
-  
-  // trackByFn(index, item) {
-  //   return index; // or item.id
-  // }
 
 }
-
-
-// loading: boolean;
-
-// constructor(router: Router) {
-//   this.loading = false;
-
-//   router.events.subscribe(
-//     (event: RouterEvent): void => {
-//       // console.log("event: ", event);
-//       if (event instanceof RouteConfigLoadStart) {
-//         this.loading = true;
-//       } else if (event instanceof RouteConfigLoadEnd) {
-//         this.loading = false;
-//       }
-//     });
-// }

@@ -1,32 +1,27 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+
 import { RegisterComponent } from './register/register.component';
-import { LeftPanelComponent } from './left-panel/left-panel.component';
-import { RightPanelComponent } from './right-panel/right-panel.component';
 
-import { CommonModule } from '@angular/common';  
-import { TimelineModule } from './landingpage/timeline.module';
-import { FooterComponent } from './footer/footer.component';
+export const appRoutes: Routes = [
+  { path: '', component: RegisterComponent },
+  { path: 'landingpage', loadChildren: () => import('./landingpage/timeline.module').then(m => m.TimelineModule) },
+  { path: 'shortcuts', loadChildren: () => import('./LeftBarShortcuts/shortcuts-routing.module').then(m => m.ShortcutsRoutingModule) }
+];
 
-const appRoutes : Routes = [
- { path: '', component: RegisterComponent },
-//  { path: 'footer', component: FooterComponent },
- { path: 'landingpage', loadChildren: './landingpage/timeline.module#TimelineModule' },
- { path: 'shortcuts', loadChildren: './LeftBarShortcuts/shortcuts-routing.module#ShortcutsRoutingModule' }
-]
-//   loadChildren: () => import('./nyan/nyan.module').then(m => m.NyanModule)  LATEST SYNTAX
-//  { path: 'iol', loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule) , canActivate: [AuthGuard] }
 @NgModule({
-  declarations: [
-    
-  ],
+  declarations: [],
 
   imports: [
     CommonModule,
-    // TimelineModule,
-    RouterModule.forRoot(appRoutes, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(appRoutes,
+      {
+        useHash: true, preloadingStrategy: PreloadAllModules
+      }
+    )
   ],
-  
+
   exports: [RouterModule]
 })
 

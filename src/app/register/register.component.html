@@ -1,6 +1,5 @@
-<ng-template appPlaceholder>  </ng-template>
+<ng-template appPlaceholder> </ng-template>
 <div class="container wrap-login100" *ngIf="activatedForm == 0">
-	<!-- ****************** FORM ********************************************* -->
 	<form [formGroup]="signupForm" (ngSubmit)="onSignUp()" class="login100-form" style="padding-top: 12%">
 		<span class="login100-form-title " style="margin-top:-20px; margin-bottom: 13px">
 			Register Yourself
@@ -15,7 +14,6 @@
 			<div *ngIf="nameValidationStatus">
 				<p class="row" style="float: right; color: red">{{usernameErrorMsg}}</p> <br>
 			</div>
-			<!-- -------------------------------------------------- -->
 		</div>
 
 		<div class="form-group" data-validate="Valid email is required: ex@abc.xyz">
@@ -26,7 +24,6 @@
 			<div *ngIf="emailValidationStatus">
 				<p class="row" style="float: right; color: red">{{emailErrorMsg}}</p>
 			</div>
-			<!-- --------------------------------------------- -->
 		</div>
 
 		<div class="form-group">
@@ -49,22 +46,21 @@
 			<div *ngIf="genderValidationStatus">
 				<p class="row" style="float: right; color: red">please select gender</p>
 			</div>
-			<!-- --------------------------------------------- -->
 		</div>
 
 		<div>
 			<label>Birthday</label>
-			<select formControlName="date" (input)="validateSignupBirthdate(date)" #date>
+			<select formControlName="date" (input)="validateSignupBirthdate()" #date>
 				<option value="" selected disabled hidden>date</option>
 				<option value="1" *ngFor="let date of dates"> {{date}} </option>
 			</select>
 			&nbsp;
-			<select formControlName="month" (input)="validateSignupBirthmonth(month)" #month>
+			<select formControlName="month" (input)="validateSignupBirthmonth()" #month>
 				<option value="" selected disabled hidden>month</option>
 				<option [value]="month" *ngFor="let month of months"> {{month}} </option>
 			</select>
 			&nbsp;
-			<select formControlName="year" (input)="validateSignupBirthyear(year)" #year>
+			<select formControlName="year" (input)="validateSignupBirthyear()" #year>
 				<option value="" selected disabled hidden>year</option>
 				<option [value]="year" *ngFor="let year of years"> {{year}} </option>
 			</select>
@@ -73,35 +69,30 @@
 			<div *ngIf="birthdayValidationStatus">
 				<p class="row" style="float: right; color: red">please enter birthdate</p>
 			</div>
-			<!-- --------------------------------------------- -->
 		</div>
 
 		<br>
 		<div class="form-group" data-validate="Password is required">
 			<label>Password</label>
 			<input class="form-control" type="password" name="pass" placeholder="enter password"
-				formControlName="password" (input)="validateSignupPassword(password)" #password>
+				formControlName="password" (input)="validateSignupPassword()" #password>
+
 			<!-- ------------------Password Validation --------------- -->
 			<div *ngIf="passwordValidationStatus">
 				<p class="row" style="float: right; color: red">password must be atleast 5 characters</p>
 			</div>
-			<!-- --------------------------------------------- -->
 		</div>
 		<br *ngIf="breakLineStatus">
 		<div class="form-group" data-validate="Password is required">
 			<label>Confirm Password</label>
 			<input class="form-control" type="password" name="pass" placeholder="reenter password"
-				formControlName="confirmpassword" (input)="validateSignupConfirmPassword(cpassword)" #cpassword>
+				formControlName="confirmpassword" (input)="validateSignupConfirmPassword()" #cpassword>
+
 			<!-- --------------ConfirmPassword Validation ----------- -->
 			<div *ngIf="passwordMatchStatus">
 				<p class="row" style="float: right; color: red">password not matching</p>
 			</div>
-			<!-- --------------------------------------------- -->
 		</div>
-
-		<!-- <div class="form-group">
-			<a routerLink="/">Forgot Password</a> {{activatedForm}}
-		</div> -->
 
 		<div class="form-group">
 			<button type="submit" class="login100-form-btn"
@@ -111,24 +102,7 @@
 		</div>
 		<p style="text-align: center">{{message}}</p>
 	</form>
-</div> <!-- DIV CONTAINER-WRAP ENDS -->
-
-<!-- <button (click)="alertMsg()">alerted</button>
-<button (click)="startLoop()">loop</button> -->
-
-
-<!-- <app-alert *ngIf="error" [message]="error" (click)="onHandleError()"></app-alert> -->
-
-<!-- <div class="container">
-	<div class="row justify-content-center align-items-center">
-		<input type="text" placeholder="error name" #errorField>
-		<button (click)="showErrorAlert(errorField.value)">zabardasti error</button>
-	</div>
-</div> -->
-
+</div> <!-- DIV CONTAINER-WRAP ENDED -->
 
 
 <app-login-component></app-login-component>
-
-
-

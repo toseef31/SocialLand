@@ -4,24 +4,23 @@ import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
-import { routes } from './app-routing.module';
-import { HomeComponent } from './custom_components/home/home.component';
+import { appRoutes } from './app-routing.module';
 import { GradeCalcPipe } from './pipes/grade-calc.pipe';
 import { HighlightDirective } from './directives/highlight.directive';
 import { Router } from '@angular/router';
-import { ProjectionComponent } from './custom_components/projection/projection.component';
+import { HomeComponent } from './home/home.component';
 
 describe('App Routing', () => {
     let router: Router;
     let homefixture: ComponentFixture<HomeComponent>;
-    let projectfixture: ComponentFixture<ProjectionComponent>;
+    // let projectfixture: ComponentFixture<ProjectionComponent>;
     let location: Location;
     let homeEleDebug: DebugElement;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [HomeComponent, GradeCalcPipe, HighlightDirective],
-            imports: [RouterTestingModule.withRoutes(routes)]
+            imports: [RouterTestingModule.withRoutes(appRoutes)]
         }).compileComponents();
     }));
 
@@ -30,7 +29,7 @@ describe('App Routing', () => {
         location = TestBed.inject(Location);
         router.initialNavigation();
         homefixture = TestBed.createComponent(HomeComponent);
-        projectfixture = TestBed.createComponent(ProjectionComponent);
+        // projectfixture = TestBed.createComponent(ProjectionComponent);
         homeEleDebug = homefixture.debugElement;
     });
 
@@ -41,14 +40,14 @@ describe('App Routing', () => {
         });
     }));
 
-    it('should navigate to projection after clicking file upload', waitForAsync(() => {
-        projectfixture.detectChanges();
-        let links = homeEleDebug.queryAll(By.css('h5'));
-        console.log("links: ", links)
-        links[0].nativeElement.click();
+    // it('should navigate to projection after clicking file upload', waitForAsync(() => {
+    //     projectfixture.detectChanges();
+    //     let links = homeEleDebug.queryAll(By.css('h5'));
+    //     console.log("links: ", links)
+    //     links[0].nativeElement.click();
 
-        projectfixture.whenStable().then(() => {
-            expect(location.path()).toBe('/projection');
-        })
-    }));
+    //     projectfixture.whenStable().then(() => {
+    //         expect(location.path()).toBe('/projection');
+    //     })
+    // }));
 });

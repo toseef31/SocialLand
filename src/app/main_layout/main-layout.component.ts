@@ -49,7 +49,7 @@ export class MainLayoutComponent implements OnInit {
       "description": this.signupFormGroup.controls["password"].value,
     };
 
-    PopupComponent.prototype.setData(popup_data)
+    // PopupComponent.prototype.setData(popup_data)
     this.notificationService.newNotification(PopupComponent, popup_data);
   }
 

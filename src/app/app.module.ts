@@ -17,27 +17,18 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { BackendConnector } from './services/backendconnector.service';
 import { LoginStatusService } from './services/loginstatus.service';
-import { AuthGuardService } from './services/authguard.service';
-import { DeactivateGuardService } from './services/deactivateguard.service';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedDataService } from './services/shareddata.service';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { HighlightDirective } from './directives/highlight.directive';
-import { LeftPanelComponent } from './left-panel/left-panel.component';
-import { RightPanelComponent } from './right-panel/right-panel.component';
-import { TimelineModule } from './landingpage/timeline.module';
 import { PropertyCheckDirective } from './directives/property-check.directive';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { RouteResolverService } from './services/route-resolver.service';
-import { ScrollServiceService } from './services/scroll-service.service';
-import { ShortenPipe } from './shared/shorten.pipe';
 import { authInterceptorService } from './services/auth-interceptor.service';
-import { loggingInterceptorService } from './services/logging-interceptor.service';
 import { AlertComponent } from './shared/alert.component';
 import { PlaceholderDirective } from './shared/placeholder.directive';
 import { StoreModule } from '@ngrx/store';
 import { landingpageReducer } from './landingpage/landingpage.reducer';
-import { LandingPageServService } from './landingpage/landing-page-serv.service';
 
 // import { EffectsModule } from '@ngrx/effects';
 // import { counterReducer, userReducer } from './_store/reducers/counter.reducer';
@@ -66,11 +57,15 @@ import { LandingPageServService } from './landingpage/landing-page-serv.service'
     AngularWebStorageModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({userGroups: landingpageReducer}, {})
+    StoreModule.forRoot({ 'userGroups': landingpageReducer }, {})
   ],
 
-  providers: [BackendConnector, LoginStatusService, AuthGuardService, DeactivateGuardService,
-    SocketService, SharedDataService, RouteResolverService, ScrollServiceService, ScrollToService,
+  providers: [
+    BackendConnector,
+    LoginStatusService,
+    SocketService,
+    SharedDataService,
+    RouteResolverService,
     {
       provide: HTTP_INTERCEPTORS, //identifier of http inteceptor
       useClass: authInterceptorService, //class that will be intercepted
