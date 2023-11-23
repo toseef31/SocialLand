@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BackendConnector } from '../services/backendconnector.service';
-import { SharedDataService } from '../services/shareddata.service';
+import { SharedDataService } from '../services/shared-data.service';
 import { Router } from '@angular/router';
 import { SessionStorageService } from 'angular-web-storage';
 import { LoginStatusService } from '../services/loginstatus.service';

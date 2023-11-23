@@ -16,8 +16,7 @@ class DeactivateGuard {
     }
 }
 
-export const deactivateGuard: CanDeactivateFn<boolean> = 
-(comp: any, route: ActivatedRouteSnapshot, currentRoutestate: RouterStateSnapshot, nextRoutestate: RouterStateSnapshot): boolean => 
-{
-    return inject(DeactivateGuard).canDeactivate(comp, route, currentRoutestate, nextRoutestate);
-}
+export const deactivateGuard: CanDeactivateFn<boolean> =
+    (comp: any, route: ActivatedRouteSnapshot, currentRoutestate: RouterStateSnapshot, nextRoutestate: RouterStateSnapshot): boolean => {
+        return inject(DeactivateGuard).canDeactivate(comp, route, currentRoutestate, nextRoutestate);
+    }

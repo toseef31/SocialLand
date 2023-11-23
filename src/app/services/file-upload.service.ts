@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -14,11 +14,9 @@ export class FileUploadService {
   uploadMultiFiles(name: string, files: []): Observable<any> {
     let formData: any = new FormData();
     formData.append('name', name);
-    for (let file of files) {
-      formData.append('files', file);
-    }
 
-    console.log("files: ", files)
+    for (let file of files) formData.append('files', file);
+    
     return this.http
       .post('http://localhost:4000/api/create-user', formData, {
         reportProgress: true,
@@ -30,9 +28,8 @@ export class FileUploadService {
   addUser(name: string, files: []): Observable<any> {
     let formData: any = new FormData();
     formData.append('name', name);
-    for (let file of files) {
-      formData.append('files', file);
-    }
+
+    for (let file of files) formData.append('files', file);
 
     return this.http
       .post('http://localhost:4000/api/create-user', formData, {
@@ -49,7 +46,6 @@ export class FileUploadService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

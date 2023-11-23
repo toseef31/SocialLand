@@ -1,5 +1,5 @@
 import { ComponentRef, Injectable, Type, ViewContainerRef } from '@angular/core';
-import { NotificationComponent } from '../custom_components/notification/notification.component';
+import { NotificationComponent } from '../notification/notification.component';
 
 @Injectable({
   providedIn: 'root'

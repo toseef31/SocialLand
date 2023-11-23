@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-//import { HttpModule } from "@angular/http";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 // ********** SERVICES **************************************
@@ -18,21 +17,14 @@ import { FooterComponent } from './footer/footer.component';
 import { BackendConnector } from './services/backendconnector.service';
 import { LoginStatusService } from './services/loginstatus.service';
 import { AppRoutingModule } from './app-routing.module';
-import { SharedDataService } from './services/shareddata.service';
+import { SharedDataService } from './services/shared-data.service';
 import { LoginComponentComponent } from './login-component/login-component.component';
 import { HighlightDirective } from './directives/highlight.directive';
 import { PropertyCheckDirective } from './directives/property-check.directive';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
-import { RouteResolverService } from './services/route-resolver.service';
-import { authInterceptorService } from './interceptors/auth-interceptor.service';
-import { AlertComponent } from './shared/alert.component';
-import { PlaceholderDirective } from './shared/placeholder.directive';
 import { StoreModule } from '@ngrx/store';
 import { landingpageReducer } from './landingpage/landingpage.reducer';
 
-// import { EffectsModule } from '@ngrx/effects';
-// import { counterReducer, userReducer } from './_store/reducers/counter.reducer';
-// import { UpdateUserEffect } from './_store/effects/update-user.effects';
 
 @NgModule({
   declarations: [
@@ -41,13 +33,9 @@ import { landingpageReducer } from './landingpage/landingpage.reducer';
     HeaderComponent,
     FooterComponent,
     LoginComponentComponent,
-    //  LeftPanelComponent,
-    //  RightPanelComponent,
     HighlightDirective,
     PropertyCheckDirective,
     ErrorpageComponent,
-    AlertComponent,
-    PlaceholderDirective
   ],
 
   imports: [
@@ -65,12 +53,11 @@ import { landingpageReducer } from './landingpage/landingpage.reducer';
     LoginStatusService,
     SocketService,
     SharedDataService,
-    RouteResolverService,
-    {
-      provide: HTTP_INTERCEPTORS, //identifier of http inteceptor
-      useClass: authInterceptorService, //class that will be intercepted
-      multi: true  // for multiple inteceptors
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS, //identifier of http inteceptor
+    //   useClass: authInterceptorService, //class that will be intercepted
+    //   multi: true  // for multiple inteceptors
+    // }
     // {
     //   provide: HTTP_INTERCEPTORS, //identifier of http inteceptor
     //   useClass: loggingInterceptorService, //class that will be intercepted

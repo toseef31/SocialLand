@@ -6,29 +6,32 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class RouteLinksService {
 
-  constructor(private router: Router, private activeRouter: ActivatedRoute) { }
-  
-  loadHome(){
+  constructor(
+    private router: Router,
+    private activeRouter: ActivatedRoute
+  ) { }
+
+  loadHome() {
     this.router.navigate(['/landingpage/home']);
   }
 
-  loadTimeline(){
+  loadTimeline() {
     this.router.navigate(['/landingpage/timeline']);
   }
 
-  loadCreatePate(){
+  loadCreatePate() {
     this.router.navigate(['/shortcuts/create-page']);
   }
 
-  loadFriendSection(){
+  loadFriendSection() {
     this.router.navigate(['/shortcuts/friendsection']);
   }
 
-  loadGroupsPage(){
+  loadGroupsPage() {
     this.router.navigate(['/landingpage/groups/1']);
   }
 
-  loadMyPage(){
+  loadMyPage() {
     this.router.navigate(['/shortcuts/mypage']);
   }
 }
