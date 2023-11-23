@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-right-panel',
@@ -8,13 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RightPanelComponent implements OnInit {
 
- // activerightPanel: number = 0;
+  constructor() { }
 
-  constructor(private route: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    // this.activerightPanel = parseInt(this.route.snapshot.paramMap.get('panelNo'));
-    // console.log('activeRightPanel: '+ this.activerightPanel);
-  }
+  ngOnInit(): void { }
 
 }

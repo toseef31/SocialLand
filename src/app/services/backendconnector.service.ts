@@ -1,8 +1,9 @@
 import { SocketService } from './socket.service';
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { SessionStorageService } from 'angular-web-storage';
+import { BasicResponse } from '../models/basic-response.model';
 
 @Injectable()
 export class BackendConnector {
@@ -25,21 +26,12 @@ export class BackendConnector {
     //*************************************************************************************/
     //**************************** Registration ***********************************************/
     //*************************************************************************************/
-    signUpRequest(signupData: any) {
-
-        this.http.post(this.baseUrl + "/signup", signupData).subscribe(
-            (response: any) => {
-                return response;
-            }
-        );
+    signUpRequest(signupData: any): Observable<BasicResponse> {
+        return this.http.post<BasicResponse>(this.baseUrl + "/signup", signupData);
     }
 
-    signInRequest(signinData: any) {
-        this.http.post(this.baseUrl + "/signin", signinData).subscribe(
-            (response: any) => {
-                return response;
-            }
-        );
+    signInRequest(signinData: any): Observable<BasicResponse> {
+        return this.http.post<BasicResponse>(this.baseUrl + "/signin", signinData);
     }
 
     //*************************************************************************************/

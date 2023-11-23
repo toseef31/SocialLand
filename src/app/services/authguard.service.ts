@@ -1,5 +1,4 @@
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from "@angular/router";
-import { Observable } from "rxjs";
 import { Injectable, inject } from "@angular/core";
 
 import { LoginStatusService } from "./loginstatus.service";
@@ -11,10 +10,7 @@ class PermissionsService {
     constructor(private router: Router, private loginService: LoginStatusService) { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        console.log(this.loginService.isUserLoggedIn())
-        if (this.loginService.isUserLoggedIn()) {
-            return true;
-        }
+        if (this.loginService.isUserLoggedIn()) return true;
 
         this.router.navigate(['/']);
         return false;

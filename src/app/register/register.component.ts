@@ -78,7 +78,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.loginSubscription = this.loginService.updateActivatedForm.subscribe(
       (getActivatedForm: string) => {
-        console.log(getActivatedForm);
         this.activatedForm = parseInt(getActivatedForm);
         this.message = "";
       });
@@ -121,16 +120,16 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       'password': this.signupForm.value.password,
     };
 
-    this.backendService.signUpRequest(signUpdata).then(
+    this.backendService.signUpRequest(signUpdata).subscribe(
       (responseStatus: any) => {
         if (!responseStatus.status) {
           if (responseStatus.message == "nametaken") {
             this.nameValidationStatus = this.nameInputFieldError = true;
-            this.usernameErrorMsg = "name already taken";
+            this.usernameErrorMsg = "Name already taken";
           }
           if (responseStatus.message == "emailtaken") {
             this.emailValidationStatus = this.emailInputFieldError = true;
-            this.emailErrorMsg = "email already taken";
+            this.emailErrorMsg = "Email already taken";
           }
         }
         else {
@@ -144,7 +143,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   onLogin() {
-    console.log("onLogin");
     let email_username: string = '';
     let password: string = '';
 
@@ -155,7 +153,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       password = this.passwordFieldInputValue;
 
     if (email_username != "" || password != "") {
-      this.backendService.signInRequest({ 'emailORusername': email_username, 'password': password }).then(
+      this.backendService.signInRequest({ 'emailORusername': email_username, 'password': password }).subscribe(
         (signInStatusResponse: any) => {
           if (!signInStatusResponse.status) {
             this.message = "incorrect email/password";
