@@ -1,12 +1,12 @@
 import { SocketService } from './socket.service';
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subject, Subscription, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { SessionStorageService } from 'angular-web-storage';
 
-@Injectable() 
-export class BackendConnector{
- 
+@Injectable()
+export class BackendConnector {
+
     private baseUrl: string = "http://localhost:8000/api";
     getMypageSub = new Subject<any>();
     setMyProfilePic = new Subject<any>();
@@ -25,50 +25,38 @@ export class BackendConnector{
     //*************************************************************************************/
     //**************************** Registration ***********************************************/
     //*************************************************************************************/
-    // Connect and Send Registration Data to laravel-Backend function
     signUpRequest(signupData: any) {
-        var promise = new Promise((resolve, reject) => {
-            return this.http.post(this.baseUrl + "/signup", signupData).subscribe(
-                (response: any) => {
-                    resolve(response);
-                }
-            );
-        });
-        return promise;
+
+        this.http.post(this.baseUrl + "/signup", signupData).subscribe(
+            (response: any) => {
+                return response;
+            }
+        );
     }
 
-    // Connect and Sends SignIn Data to laravel-Backend function
     signInRequest(signinData: any) {
-        //console.log(signinData);
-        var promise = new Promise((resolve, reject) => {
-            return this.http.post(this.baseUrl + "/signin", signinData).subscribe(
-                (response: any) => {
-                    resolve(response);
-                }
-            );
-        });
-        return promise;
+        this.http.post(this.baseUrl + "/signin", signinData).subscribe(
+            (response: any) => {
+                return response;
+            }
+        );
     }
 
     //*************************************************************************************/
     //**************************** User's Posts ***********************************************/
     //*************************************************************************************/
     public uploadPost(imageFile: File, description: string, maxPostId: number) {
-     // console.log(maxPostId);
         const fd = new FormData();
         const id = this.session.get('authUserId');
-        var desc = "";
+        let desc = "";
 
         if (description != "" || description != null)
             desc = description;
 
         fd.append('userId', id);
 
-        console.log(imageFile);
         if (imageFile != null)
             fd.append('image', imageFile, imageFile.name);
-        // else
-        //     fd.append('image', "", "");
 
         fd.append('description', desc);
         fd.append('maxPostId', (maxPostId + ''));
@@ -77,39 +65,37 @@ export class BackendConnector{
         return this.http.post(this.baseUrl + "/uploadpost", fd).subscribe(
             (response: any) => {
                 this.socketService.sendPost(response);
-                console.log(response);
             }
         );
     }
 
     public uploadTimelinePost(imageFile: File, description: string, maxPostId: number) {
-        // console.log(maxPostId);
-           const fd = new FormData();
-           const id = this.session.get('authUserId');
-           var desc = "";
-   
-           if (description != "" || description != null)
-               desc = description;
-   
-           fd.append('userId', id);
-   
-           if (imageFile != null)
-               fd.append('image', imageFile, imageFile.name);
-           else
-               fd.append('image', imageFile, "");
-   
-           fd.append('description', desc);
-           fd.append('maxPostId', (maxPostId + ''));
-           fd.append("status", 'uploadpost');
-   
-           return this.http.post(this.baseUrl + "/uploadpost", fd).subscribe(
-               (response: any) => {
-                   this.socketService.sendTimelinePost(response);
-               }
-           );
-       }
+        const fd = new FormData();
+        const id = this.session.get('authUserId');
+        let desc = "";
 
-       public getPost(maxPostId: number) {
+        if (description != "" || description != null)
+            desc = description;
+
+        fd.append('userId', id);
+
+        if (imageFile != null)
+            fd.append('image', imageFile, imageFile.name);
+        else
+            fd.append('image', imageFile, "");
+
+        fd.append('description', desc);
+        fd.append('maxPostId', (maxPostId + ''));
+        fd.append("status", 'uploadpost');
+
+        return this.http.post(this.baseUrl + "/uploadpost", fd).subscribe(
+            (response: any) => {
+                this.socketService.sendTimelinePost(response);
+            }
+        );
+    }
+
+    public getPost(maxPostId: number) {
         const data = {
             'userId': this.session.get('authUserId'),
             'maxPostId': maxPostId,
@@ -122,8 +108,8 @@ export class BackendConnector{
             }
         );
     }
-    
-       public getTimelinePost(maxPostId: number) {
+
+    public getTimelinePost(maxPostId: number) {
         const data = {
             'userId': this.session.get('authUserId'),
             'maxPostId': maxPostId,
@@ -133,37 +119,31 @@ export class BackendConnector{
         return this.http.post(this.baseUrl + "/retrievetimelinepost", data).subscribe(
             (response: any) => {
                 this.socketService.sendTimelinePost(response);
-               // console.log(response);
             }
         );
     }
 
     public getMaxPostId() {
-        
-        var promise = new Promise((resolve, reject) => {
-            return this.http.get(this.baseUrl + "/maxpostid").subscribe(
-                (response: any) => {
-                    resolve(response);
-                }
-            );
-        });
-        return promise;
+        this.http.get(this.baseUrl + "/maxpostid").subscribe(
+            (response: any) => {
+                return response;
+            }
+        );
     }
 
     public getCurrentUserMaxPostId() {
         const data = { 'userId': this.session.get('authUserId') };
-        var promise = new Promise((resolve, reject) => {
-            return this.http.post(this.baseUrl + "/getusermaxpostid", data).subscribe(
-                (response: any) => {
-                    resolve(response);
-                }
-            );
-        });
-        return promise;
+
+        this.http.post(this.baseUrl + "/getusermaxpostid", data).subscribe(
+            (response: any) => {
+                return response;
+            }
+        );
+
     }
 
     //*************************************************************************************/
-      //**************************** User's Profile *******************************************/
+    //**************************** User's Profile *******************************************/
     //*************************************************************************************/
 
     public uploadProfilePic(imageFile: File) {
@@ -171,7 +151,7 @@ export class BackendConnector{
         const fd = new FormData();
 
         fd.append('userId', userid);
-     
+
         if (imageFile != null)
             fd.append('profilePic', imageFile, imageFile.name);
         else
@@ -179,23 +159,22 @@ export class BackendConnector{
 
         return this.http.post(this.baseUrl + "/uploadprofilepic", fd).subscribe(
             (response: any) => {
-               // this.socketService.sendPost(response);
-               this.setMyProfilePic.next(response);
+                this.setMyProfilePic.next(response);
             }
         );
     }
 
-    public getProfilePic(userId: number){
+    public getProfilePic(userId: number) {
         const data = { 'userId': this.session.get('authUserId') };
         return this.http.post(this.baseUrl + "/getprofilepic", data).subscribe(
             (response: any) => {
-               this.setMyProfilePic.next(response);
+                this.setMyProfilePic.next(response);
             }
         );
     }
 
     //*************************************************************************************/
-      //**************************** Post Like/Dislike****************************************/
+    //**************************** Post Like / Dislike****************************************/
     //*************************************************************************************/
 
     public setLikeDislike(isLiked: boolean, isDisliked: boolean, postId: number, maxPostId: number) {
@@ -224,7 +203,7 @@ export class BackendConnector{
     }
 
     //*************************************************************************************/
-      //**************************** Post's Comments ******************************************/
+    //**************************** Post's Comments ******************************************/
     //*************************************************************************************/
     public setComment(postId: number, comment: string, maxPostId: number) {
         const commentData = {
@@ -318,13 +297,13 @@ export class BackendConnector{
         return this.http.post(this.baseUrl + "/unfriendrequest", unfriendRequestData).subscribe(
             (response: any) => {
                 this.unfriend.next(response);
-              // this.socketService.sendFriendRequest(response);
             }
         );
     }
 
-    public loadfriendSuggestions(){
+    public loadfriendSuggestions() {
         const data = { 'userId': this.session.get('authUserId') };
+
         return this.http.post(this.baseUrl + "/getfriendsdata", data).subscribe(
             (response: any) => {
                 this.setSuggestedFriends.next(response);
@@ -332,7 +311,7 @@ export class BackendConnector{
         );
     }
 
-    public getfriendSuggestions(friendMaxUserId: number){
+    public getfriendSuggestions(friendMaxUserId: number) {
         const friendSuggestData = {
             'userId': this.session.get('authUserId'),
             'friendMaxUserId': friendMaxUserId
@@ -347,16 +326,17 @@ export class BackendConnector{
 
     public getFriendsData() {
         const data = { 'userId': this.session.get('authUserId') };
+
         return this.http.post(this.baseUrl + "/getfriendsdata", data).subscribe(
             (response: any) => {
                 this.setFriends.next(response);
-               // this.socketService.sendFriendRequest(response);
             }
         );
     }
 
     public getMyFriends() {
         const data = { 'userId': this.session.get('authUserId') };
+
         return this.http.post(this.baseUrl + "/getmyfriends", data).subscribe(
             (response: any) => {
                 this.setMyFriends.next(response);
@@ -367,31 +347,13 @@ export class BackendConnector{
     // ******************************************************************************************
     // ****************************** User's Page ************************************************
     // *****************************************************************************************
-
     public getSinglePage(pageId: number) {
-      //  console.log("getSinglePage: "+ pageId);
         return this.http.post(this.baseUrl + '/mysinglepage', { 'userId': this.session.get('authUserId'), 'pageId': pageId });
     }
 
-    public TESTgetMypage() {
-        console.log("TESTgetMypage");
-        var promise = new Promise((resolve, reject) => {
-        this.http.post(this.baseUrl + '/mypage', { 'userId': this.session.get('authUserId') }).subscribe(
-            (response: any) => {
-                resolve(response);
-                console.log("Page Fetched");
-            }
-        );
-        });
-        console.log("Returning");
-        return promise;
-    }
-
     public getMypage() {
-       // console.log("Getting Page");
         return this.http.post(this.baseUrl + '/mypage', { 'userId': this.session.get('authUserId') }).subscribe(
             (response: any) => {
-                console.log("Page Fetched");
                 this.getMypageSub.next([response]);
             }
         );
@@ -404,7 +366,6 @@ export class BackendConnector{
         uploadData.append('pagecat', createPageData.pagecat);
         uploadData.append('pagedesc', createPageData.pagedesc);
 
-        console.log(picFile);
         if (picFile != null)
             uploadData.append('image', picFile, picFile.name);
         else
@@ -412,13 +373,10 @@ export class BackendConnector{
 
         uploadData.append('userId', this.session.get("authUserId"));
 
-        var promise = new Promise((resolve, reject) => {
-            return this.http.post(this.baseUrl + '/create-page', uploadData).subscribe((response: any) => {
-                resolve(response);
-            });
+
+        return this.http.post(this.baseUrl + '/create-page', uploadData).subscribe((response: any) => {
+            return response;
         });
-        return promise;
     }
-    
-    
+
 }

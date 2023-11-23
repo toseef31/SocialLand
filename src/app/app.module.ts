@@ -24,7 +24,7 @@ import { HighlightDirective } from './directives/highlight.directive';
 import { PropertyCheckDirective } from './directives/property-check.directive';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { RouteResolverService } from './services/route-resolver.service';
-import { authInterceptorService } from './services/auth-interceptor.service';
+import { authInterceptorService } from './interceptors/auth-interceptor.service';
 import { AlertComponent } from './shared/alert.component';
 import { PlaceholderDirective } from './shared/placeholder.directive';
 import { StoreModule } from '@ngrx/store';

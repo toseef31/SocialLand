@@ -1,14 +1,13 @@
 import { PipeTransform, Pipe } from "@angular/core";
 
-@Pipe({name: 'reverse' })
+@Pipe({ name: 'reverse' })
 
-//[ *** TO MAKE LOOP REVERSE IN TEMPLATES ***]
-export class ReversePipe implements PipeTransform{
+export class ReversePipe implements PipeTransform {
 
-    transform(value){
-      if (!value) return;
+  transform(value: []) {
+    if (!value) return;
 
-      return value.reverse();
-    }
-
+    return value.reverse();
+  }
+  
 }

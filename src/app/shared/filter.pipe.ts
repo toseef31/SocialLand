@@ -20,29 +20,21 @@ export class FilterPipe implements PipeTransform {
       }
       else {
         for (let i = 0; i < group.groupName.length; i++) {
-          // console.log("groupName: " + i + " -> "+ group.groupName);
           for (var j = 0; j < searchText.length; j++) {
-            //  console.log("j: "+ j);
             if (group.groupName.charAt(i) == searchText[j]) {
               searchedVal += searchText[j];
               matchingStatus = true;
               break;
             }
-            else if (group.groupName.charAt(i) != searchText[j]) {
-              matchingStatus = false;
-            }
+            else if (group.groupName.charAt(i) != searchText[j]) matchingStatus = false;
           }
-          if (searchedVal != "" && searchedVal == searchText && matchingStatus) {
-            // console.log("pushed");
-            // console.log(searchedVal +" == "+ searchText);
+          if (searchedVal != "" && searchedVal == searchText && matchingStatus)
             resultGroups.push(group);
-          }
-          else if (searchedVal != "" && searchedVal != searchText.substr(0, searchedVal.length) && matchingStatus) {
+
+          else if (searchedVal != "" && searchedVal != searchText.substring(0, searchedVal.length) && matchingStatus)
             searchedVal = "";
-          }
-          else if (!matchingStatus && searchedVal.length > 0) {
-            searchedVal = "";
-          }
+
+          else if (!matchingStatus && searchedVal.length > 0) searchedVal = "";
         }
       }
     }

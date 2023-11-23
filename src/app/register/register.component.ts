@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   months: string[] = [];
   years: number[] = [];
 
-  signupForm: FormGroup;
+  signupForm!: FormGroup;
 
   // Form input-fields validation variables
   nameValidationStatus: boolean = false;
@@ -75,16 +75,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dates = this.shareService.dates;
     this.months = this.shareService.months;
     this.years = this.shareService.years;
-
-    this.signupForm = new FormGroup({
-      'username': new FormControl(""),
-      'email': new FormControl(""),
-      'gender': new FormControl(""),
-      'date': new FormControl(this.dates),
-      'month': new FormControl(this.months),
-      'year': new FormControl(this.years),
-      'password': new FormControl(""),
-    });
 
     this.loginSubscription = this.loginService.updateActivatedForm.subscribe(
       (getActivatedForm: string) => {
