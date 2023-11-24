@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { SharedModule } from 'src/app/shared.module';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
   selector: 'app-multi-file-upload',
-  standalone: false,
-  // imports: [SharedModule],
   templateUrl: './multi-file-upload.component.html',
   styleUrls: ['./multi-file-upload.component.scss']
 })
@@ -34,7 +31,6 @@ export class MultiFileUploadComponent {
         'ngUnsubscribe': new Subject<any>(),
       });
 
-      // this.startProgress(file, this.uploadedMedia[this.uploadedMedia.length - 1]);
       this.takeFunction(file, this.uploadedMedia[this.uploadedMedia.length - 1])
     }
   }
@@ -67,7 +63,7 @@ export class MultiFileUploadComponent {
 
 
   uploadMedia(): Observable<any> {
-    return this.fileUploadService.uploadMultiFiles("mr.multer", this.selectedFiles)
+    return this.fileUploadService.uploadMultiFiles("/upload/media", this.selectedFiles)
       .pipe(
         map((event: HttpEvent<any>) => {
           switch (event.type) {
@@ -94,7 +90,7 @@ export class MultiFileUploadComponent {
 
 
   takeFunction(file: any, uploadedMedia: any): void {
-    this.fileUploadService.uploadMultiFiles("mr.multer", this.selectedFiles)
+    this.fileUploadService.uploadMultiFiles("/upload/media", this.selectedFiles)
       .pipe(
         map((event: HttpEvent<any>) => {
           switch (event.type) {

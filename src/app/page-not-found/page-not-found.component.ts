@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   template: '<h2> 404 Page Not Found </h2>',
@@ -11,11 +11,5 @@ import { Component, OnInit } from '@angular/core';
   }
   `]
 })
-export class PageNotFoundComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class PageNotFoundComponent {}

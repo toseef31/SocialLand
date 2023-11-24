@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BackendConnector } from '../../services/backendconnector.service';
 import { Router } from '@angular/router';
@@ -20,21 +20,21 @@ export class CreatePageComponent implements OnInit {
   pageUrlInputFieldError: boolean = false;
   pageDescValidationStatus: boolean = false;
   pageDescInputFieldError: boolean = false;
-  pagePicture: File = null;
+  pagePicture: File | null = null;
 
   pageNameErrorMessage: string = "";
   pageUrlErrorMessage: string = "";
   pageDescErrorMessage: string = "";
   imageSrc: string = "";
 
+  @ViewChild('pagedesc') pagedesc_input!: ElementRef;
+
   constructor(
     private formBuilder: FormBuilder,
     private connector: BackendConnector,
     private router: Router,
     private loginService: LoginStatusService
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.createpageForm = this.formBuilder.group({
       pagename: ['', Validators.required],
       pageurl: ['', Validators.required],
@@ -43,14 +43,15 @@ export class CreatePageComponent implements OnInit {
     });
   }
 
+  ngOnInit() { }
+
   get f() { return this.createpageForm.controls; }
 
+  onPagePicture(event: Event) {
+    if (event && event.target && event.target instanceof HTMLInputElement && event.target.files && event.target.files.length > 0)
+      this.pagePicture = <File>event.target.files[0];
 
-
-  onPagePicture(event) {
-    this.pagePicture = <File>event.target.files[0];
-
-    //   if(event.target.files && event.target.files[0])
+    // if(event.target.files && event.target.files[0])
     // {
     //   const file = event.target.files[0];
     //   const reader = new FileReader();
@@ -60,9 +61,7 @@ export class CreatePageComponent implements OnInit {
   }
 
   onSubmit() {
-
-    if (this.createpageForm.invalid)
-      return;
+    if (this.createpageForm.invalid) return;
 
     const createPageData = {
       'pagename': this.createpageForm.value.pagename,
@@ -98,9 +97,9 @@ export class CreatePageComponent implements OnInit {
     }
   }
 
-  validateDescription(element: HTMLInputElement) {
+  validateDescription() {
     this.pageDescInputFieldError = false;
-    if (element.value == "") {
+    if (this.pagedesc_input.nativeElement.value == "") {
       this.pageDescValidationStatus = true;
       this.pageDescErrorMessage = "Page Description is required";
     } else {
@@ -111,7 +110,6 @@ export class CreatePageComponent implements OnInit {
 
   public SetNextRoute(nextRoute: string) {
     this.loginService.setNextRouteName(nextRoute);
-    // this.router.navigate(['landingpage/create-page']);
   }
 
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { BackendConnector } from 'src/app/services/backendconnector.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { ShorcutsComponent } from '../../LeftBarShortcuts/shorcuts.component';
 import { ActivatedRoute } from '@angular/router';
@@ -15,11 +14,9 @@ export class PageHomeComponent implements OnInit {
   pageData: any;
   userId: number = 0;
   @Output() pageWasSelected = new EventEmitter<number>();
-  // pageSelected: number;
 
   constructor(
     private activePage: ShorcutsComponent,
-    private backendService: BackendConnector,
     public session: SessionStorageService,
     private activatedRouter: ActivatedRoute
   ) {

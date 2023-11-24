@@ -17,8 +17,8 @@ export class LuxonPipe implements PipeTransform {
 				else return value;
 
 			} else return value;
-		} catch (e) {
-			console.info(e);
+		} catch (error) {
+			console.error(error);
 		}
 	}
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendConnector } from 'src/app/services/backendconnector.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStatusService } from 'src/app/services/loginstatus.service';
@@ -16,30 +16,24 @@ export class MypageComponent implements OnInit {
   sendPic: any;
   rightPanelNo: number = 0;
 
-  // @Output() pageSelected = new EventEmitter<number>();
-
   constructor(
     private connector: BackendConnector,
     private router: Router,
     private loginService: LoginStatusService,
     public session: SessionStorageService,
     private activePage: ShorcutsComponent,
-    private activatedRouter: ActivatedRoute
   ) {
     this.activePage.activeInPage = true;
   }
 
   onPageClick(page: any) {
-    console.log(page);
     this.loginService.setNextRouteName('/shortcuts/page-home/'+ page.page_url);
     this.router.navigate(['/shortcuts/page-home/'+ page.page_id + '/' + page.page_name]);
-    // this.pageSelected.emit(pageId);
   }
 
   ngOnInit() {
     this.connector.getMypageSub.subscribe(
       (getMypageData: any) => {
-        console.log(getMypageData[0]);
         this.myPages = getMypageData[0];
       }
     );

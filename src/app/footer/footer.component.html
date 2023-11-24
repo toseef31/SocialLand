@@ -1,7 +1,7 @@
 <button class="btn btn-warning" (click)="changeForm()">{{formButtonTxt}}</button>
-<!-- ****************************** REACTIVE FORM *********************************** -->
+
 <div *ngIf="formType">
-  <h3> REACTIVE FORM </h3>
+  <h3> SIGNUP </h3>
   <form [formGroup]="signupForm" (ngSubmit)="reactiveSubmit()">
     <div id="form-data">
 
@@ -10,11 +10,11 @@
           <input type="text" class="form-control" placeholder="enter name" value="" name="username"
             formControlName="username">
           <span class="help-block"
-            *ngIf="!signupForm.get('names.username').valid && signupForm.get('names.username').touched">
+            *ngIf="!signupForm.get('names.username')?.valid && signupForm.get('names.username')?.touched">
 
-            <span class="help-block" *ngIf="signupForm.get('names.username').errors['forbidden']">this name is
+            <span class="help-block" *ngIf="signupForm.get('names.username')?.errors?.['forbidden']">this name is
               forbidden</span>
-            <span class="help-block" *ngIf="signupForm.get('names.username').errors['required']">field required!</span>
+            <span class="help-block" *ngIf="signupForm.get('names.username')?.errors?.['required']">field required!</span>
           </span>
 
         </div>
@@ -28,14 +28,14 @@
           <input type="text" class="form-control" placeholder="enter last name" value="" name="lastname"
             formControlName="lastname">
           <span class="help-block"
-            *ngIf="!signupForm.get('names.lastname').valid && signupForm.get('names.lastname').touched">enter a valid
+            *ngIf="!signupForm.get('names.lastname')?.valid && signupForm.get('names.lastname')?.touched">enter a valid
             last name!</span>
         </div>
       </div>
 
       <div class="form-group">
         <input type="text" class="form-control" placeholder="enter email" value="" name="email" formControlName="email">
-        <span class="help-block" *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">enter a valid
+        <span class="help-block" *ngIf="!signupForm.get('email')?.valid && signupForm.get('email')?.touched">enter a valid
           email!</span>
       </div>
 
@@ -73,11 +73,13 @@
     </div>
   </form>
 </div>
-<!-- ****************************** TEMPLATE DRIVEN FORM *********************************** -->
+
+
+
 <div *ngIf="!formType">
-  <h3> TEMPLATE FORM </h3>
+  <h3> LOGIN FORM </h3>
   <form (ngSubmit)="onSubmitForVChild()" #formObject="ngForm">
-    <div id="form-data" ngModelGroup="loginData" #loginData="ngModelGroup">
+    <div id="form-data" ngModelGroup="loginForm" #loginForm="ngModelGroup">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="enter name" value="" [(ngModel)]="nameTyping" ngModel
           name="username" required #username="ngModel">

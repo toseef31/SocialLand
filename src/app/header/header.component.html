@@ -1,13 +1,11 @@
 <div class="topbar sticky-header">
     <div class="logo" style="cursor: pointer;">
-        <!-- routerLink="landingpage/home" -->
         <a routerLink="/landingpage/home"><img src="/assets/winkuLandingPage/images/logo.png" alt=""></a>
     </div>
 
     <div class="top-area" *ngIf="isUserLoggedIn">
         <div class="dropdown" style="float: right">
 
-            <!--  ******************** SETTING PROFILE PIC IN HEADER ***************************************************** -->
             <span data-toggle="dropdown" *ngIf="(myProfilePic) != ''">
                 <img [src]="myProfilePic" class="dropdown-toggle dropDownOveride"
                     style="margin-top: 6px; width: 50px; height: 50px;">
@@ -16,13 +14,15 @@
                 <img src="/assets/pics/noProfile.png" class="dropdown-toggle dropDownOveride"
                     style="margin-top: 6px; width: 50px; height: 50px;">
             </span>
-            <!--  ***************************************************************************************************** -->
+
             <div class="dropdown-menu dropDownMenuOveride">
                 <a class="dropdown-item dropdownItemOveride" style="cursor: pointer"
-                    (click)="setRoute('landingpage/timeline')" [routerLink]="['/landingpage/timeline']" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">MyProfile</a>
+                    (click)="setRoute('landingpage/timeline')" [routerLink]="['/landingpage/timeline']"
+                    routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">MyProfile</a>
                 <hr>
                 <a class="dropdown-item dropdownItemOveride" style="cursor: pointer"
-                    (click)='openCreatePage("shortcuts/create-page")' routerLink="/shortcuts/create-page" routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Create New Page</a>
+                    (click)='openCreatePage("shortcuts/create-page")' routerLink="/shortcuts/create-page"
+                    routerLinkActive="active" [routerLinkActiveOptions]="{exact : true}">Create New Page</a>
                 <a class="dropdown-item dropdownItemOveride" style="cursor: pointer">Create New Group</a>
                 <a class="dropdown-item dropdownItemOveride" style="cursor: pointer">Advertising</a>
                 <a class="dropdown-item dropdownItemOveride" style="cursor: pointer">Edit</a>
@@ -66,7 +66,7 @@
                         </ng-template>
                         <div class="text-left user-itemC"
                             style="display: inline-block; margin-left: 10px; width: 100px;">
-                            {{request.user_name}}
+                            {{request.username}}
                         </div>
 
                         <span class="text-right">
@@ -97,7 +97,7 @@
                     </span>
 
                 </span>
-                <!-- ********************************************************************************************************************* -->
+
                 <hr>
 
                 <span>
@@ -114,7 +114,7 @@
 
                             <div class="text-left user-itemC"
                                 style="display: inline-block; margin-left: 10px; width: 100px;">
-                                {{friend.user_name}}
+                                {{friend.username}}
                             </div>
 
                             <span *ngIf="friend.request_status == 2">
@@ -124,17 +124,6 @@
                                 <input type="button" class="btn btn-primary btn-sm"
                                     (click)="sendFriendRequest(friend.user_id)" value="Send Request">
                             </span>
-
-                            <!-- <span *ngFor="let requestsent of sentRequests"> -->
-                            <!-- <span *ngIf="requestsent.user_id == friend.user_id">
-                                                    <span>Request Sent</span>
-                                            </span>
-                                            <span *ngIf="requestsent.user_id != friend.user_id ">
-                                                <input type="button" class="btn btn-primary btn-sm" (click)="sendFriendRequest(friend.user_id)" value="Send Request">
-                                            </span>
-                                            -->
-                            <!-- </span> -->
-
                         </span>
                     </span>
 
@@ -153,10 +142,5 @@
 </div>
 </li>
 </ul>
-</div> <!-- TOP Area End -->
-
-
-<!-- <app-login-component></app-login-component> -->
-
-
-</div><!-- topbar -->
+</div>
+</div>

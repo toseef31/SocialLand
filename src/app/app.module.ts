@@ -24,6 +24,8 @@ import { PropertyCheckDirective } from './directives/property-check.directive';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { StoreModule } from '@ngrx/store';
 import { landingpageReducer } from './landingpage/landingpage.reducer';
+import { MultiFileUploadComponent } from './multi-file-upload/multi-file-upload.component';
+import { MainLayoutComponent } from './main_layout/main-layout.component';
 
 
 @NgModule({
@@ -36,6 +38,8 @@ import { landingpageReducer } from './landingpage/landingpage.reducer';
     HighlightDirective,
     PropertyCheckDirective,
     ErrorpageComponent,
+    MultiFileUploadComponent,
+    MainLayoutComponent
   ],
 
   imports: [

@@ -18,7 +18,6 @@ export class HomeComponent {
 
     setTimeout(() => {
       this.submitBtn = 'Submitted';
-      // console.log("1111")
     }, 3000);
   }
 }

@@ -17,11 +17,10 @@ export class NotificationComponent implements OnInit, OnDestroy {
   @ViewChild('notificationTemplate', { read: ViewContainerRef, static: true })
   public notificationTemplate: ViewContainerRef | undefined;
 
-  //------ take until destroy (no need for ngDestroy) ------------
+  //------ Take until destroy (no need for ngDestroy) ------------
   constructor() { }
 
   ngOnInit(): void {
-    console.log("Notification: ngOnInit");
     if (this.notificationTemplate) {
       this.componentRef = this.notificationTemplate.createComponent(this.childComponentType);
       this.componentRef.instance.setData(this.popupdate);
@@ -29,7 +28,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("Notification: ngOnDestroy");
+    console.log("Notification destroyed");
   }
 
   getPopupInstance(){

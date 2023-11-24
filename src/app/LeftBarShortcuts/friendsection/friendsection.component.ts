@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SessionStorageService } from 'angular-web-storage';
 import { Subscription } from 'rxjs';
 import { SocketService } from 'src/app/services/socket.service';
+import { Friends } from 'src/app/models/friends.model';
 
 @Component({
   selector: 'app-friendsection',
@@ -12,18 +13,19 @@ import { SocketService } from 'src/app/services/socket.service';
 })
 export class FriendsectionComponent implements OnInit, OnDestroy {
 
-  friendRequestSubscription: Subscription;
-  friendSuggestionSubscription: Subscription;
+  friendRequestSubscription!: Subscription;
+  friendSuggestionSubscription!: Subscription;
 
-  friendSuggestions = [];
+  friendSuggestions!: Friends[];
   remainingFriendSuggestions = 0;
   userId: number = 0;
   executeOnce: boolean = false;
 
-  constructor(private connectorService: BackendConnector,
-    private router: Router,
+  constructor(
+    private connectorService: BackendConnector,
     private socketService: SocketService,
     public session: SessionStorageService) {
+
     localStorage.setItem('routerUrl', '/shortcuts/friendsection');
   }
 
@@ -34,21 +36,17 @@ export class FriendsectionComponent implements OnInit, OnDestroy {
 
     this.friendSuggestionSubscription = this.connectorService.setSuggestedFriends.subscribe(
       (friendsData: any) => {
-        console.log(friendsData);   
         if (!this.executeOnce) {
-          // Set Friends Suggestions 
           this.friendSuggestions = friendsData.friendSuggestions;
           this.executeOnce = true;
         }
-        else {
+        else 
           this.friendSuggestions = this.friendSuggestions.concat(friendsData.friendSuggestions);
-        }
       });
 
     this.friendRequestSubscription = this.socketService.getRequest().subscribe(
       (getfriendsData: any) => {
          let friendsData = getfriendsData.storedFriendRequest;
-         // let requestUpdated = getfriendsData.requestUpdated;
               
         for (let friend of this.friendSuggestions) {
           if (friendsData.receiver_id == friend.user_id && friendsData.sender_id == this.userId) {
@@ -60,7 +58,6 @@ export class FriendsectionComponent implements OnInit, OnDestroy {
 
   loadMoreFriends() {
     this.connectorService.getfriendSuggestions(this.friendSuggestions[this.friendSuggestions.length - 1].user_id);
-    //console.log(this.friendSuggestions[this.friendSuggestions.length -1].user_id);
   }
 
   sendFriendRequest(receiverId: number) {

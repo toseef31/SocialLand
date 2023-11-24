@@ -1,5 +1,5 @@
 import { Attribute, Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { AsyncValidatorFn, UntypedFormArray, UntypedFormControl, UntypedFormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AsyncValidatorFn, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PopupComponent } from 'src/app/modals/popup/popup.component';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -49,11 +49,9 @@ export class MainLayoutComponent implements OnInit {
       "description": this.signupFormGroup.controls["password"].value,
     };
 
-    // PopupComponent.prototype.setData(popup_data)
     this.notificationService.newNotification(PopupComponent, popup_data);
   }
 
-  // formEvent: NgForm // for template driven form
   public onSubmit() {
     console.log("onSubmit: ", this.signupFormGroup);
   }

@@ -6,14 +6,12 @@ import {
     HttpInterceptor,
     HttpErrorResponse
 } from "@angular/common/http";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
-import { catchError, filter, mergeMap, switchMap, take, tap } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) { }
+    constructor() { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const modifiedReq = req.clone({
@@ -27,7 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         return next.handle(this.addTokenHeader(req, token+''));
     }
-
 
     private addTokenHeader(request: HttpRequest<any>, token: string) {
         return request.clone({ headers: request.headers.set("Authorization", `Bearer ${token}`) });

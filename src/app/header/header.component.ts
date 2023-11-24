@@ -1,10 +1,11 @@
 import { BackendConnector } from './../services/backendconnector.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { LoginStatusService } from '../services/loginstatus.service';
 import { Subscription } from 'rxjs';
 import { SocketService } from '../services/socket.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { Friends } from '../models/friends.model';
+import { FriendRequest } from '../models/friend-request.mode';
 
 @Component({
   selector: 'app-header',
@@ -14,16 +15,15 @@ import { SessionStorageService } from 'angular-web-storage';
 
 export class HeaderComponent implements OnInit {
 
-  getProfileSubscription: Subscription;
-  addFriendSubscription: Subscription;
-  setFriendsSubscription: Subscription;
-  //loginSubscription: Subscription;
+  getProfileSubscription!: Subscription;
+  addFriendSubscription!: Subscription;
+  setFriendsSubscription!: Subscription;
 
   allUserdata: any;
   myProfilePic: any = '/assets/pics/noProfile.png';
 
-  friendRequests = [];
-  friendSuggestions = [];
+  friendRequests!: Friends[];
+  friendSuggestions!: Friends[];
 
   isUserLoggedIn: boolean = false;
   friendSuggestionLimit: number = 2;
@@ -31,28 +31,16 @@ export class HeaderComponent implements OnInit {
   friendRequestCount: number = 0;
   remainingFriendSuggestions = 0;
 
-  //--------------- Routes ---------------------
-  //createPageRoute =  [{outlets: {primary: 'landingpage/timeline', leftpanel: 'leftPanel/'+1, rightpanel: 'rightPanel/'+(2)}}];
-
   constructor(
     private connectorService: BackendConnector,
     private loginService: LoginStatusService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     public session: SessionStorageService,
-    private socketService: SocketService) {}
+    private socketService: SocketService
+    ) {}
 
   ngOnInit() {
     this.userId = parseInt(this.session.get('authUserId'));
 
-    // keep update about loginForm visibility state
-    // this.loginSubscription = this.loginService.loginFormStatus.subscribe(
-    //   (loginFormStatus: boolean) => {
-    //     this.showLoginForm = loginFormStatus;
-    //   }
-    // );
-
-    // keep update about user loggedIn state
     this.loginService.userLoginStatus.subscribe(
       (userLoginStatus: boolean) => {
         this.isUserLoggedIn = userLoginStatus;
@@ -60,9 +48,8 @@ export class HeaderComponent implements OnInit {
     );
 
     // SUBSCRIBERS --------------------------------------------------------------------------
-
     this.connectorService.getProfilePic(this.userId);
-    //set user profile pic in the header
+
     this.getProfileSubscription = this.connectorService.setMyProfilePic.subscribe(
       (data: any) => {
         if (data.profilePic != null) {
@@ -74,29 +61,20 @@ export class HeaderComponent implements OnInit {
     if (this.session.get('authUserId') != null)
       this.connectorService.getFriendsData();
 
-    //******************************** */set friendRequest and friends Suggestions ...
     this.setFriendsSubscription = this.connectorService.setFriends.subscribe(
       (friendsData: any) => {
-
-        // Set Received Friend's Requests
         this.friendRequestCount = friendsData.receivedFriendRequestsCount;
         this.friendRequests = friendsData.receivedFriendRequests;
-
-        // Set Friends Suggestions 
         this.friendSuggestions = friendsData.friendSuggestions;
-
         this.remainingFriendSuggestions = friendsData.remainingFriendsSuggestions;
       });
 
-    // this.connectorService.getFriendsData();
     this.addFriendSubscription = this.socketService.getRequest().subscribe(
       (getfriendsData: any) => {
         let friendsData = getfriendsData.storedFriendRequest;
         let requestUpdated = getfriendsData.requestUpdated;
         let index = 0;
         let selectedIndex = 0;
-       // console.log(friendsData);
-       // console.log(this.friendSuggestions);
 
         if (requestUpdated == 0) {
           for (let friend of this.friendSuggestions) {
@@ -117,16 +95,12 @@ export class HeaderComponent implements OnInit {
             if (friendsData.request_status == 1) {
               friend.request_status = 1;
               selectedIndex = index;
-              setTimeout(() => {
-                this.friendRequests.splice(selectedIndex, 1);
-              }, 3000);
+              this.friendRequests.splice(selectedIndex, 1);
             }
             else {
               friend.request_status = 0;
               selectedIndex = index;
-              setTimeout(() => {
-                this.friendRequests.splice(selectedIndex, 1);
-              }, 3000);
+              this.friendRequests.splice(selectedIndex, 1);
             }
           }
           index++;
@@ -145,8 +119,6 @@ export class HeaderComponent implements OnInit {
 
   openCreatePage(nextRoute: string) {
     this.loginService.setNextRouteName(nextRoute);
-  //  this.router.navigate(['landingpage/create-page']);
-    //this.router.navigate([{outlets: {primary: 'landingpage/create-page', leftpanel: 'leftPanel/'+0, rightpanel: 'rightPanel/'+0}}]);
   }
 
   sendFriendRequest(receiverId: number) {
@@ -154,8 +126,6 @@ export class HeaderComponent implements OnInit {
   }
 
   acceptFriendRequest(senderId: number, receiver: number) {
-    // console.log(senderId);
-    // console.log(receiver);
     this.connectorService.FriendRequestUpdate(senderId, receiver, 1);
   }
 
@@ -165,24 +135,16 @@ export class HeaderComponent implements OnInit {
 
   setRoute(nextRoute: string) {
     this.loginService.setNextRouteName(nextRoute);
-    // this.router.navigate([{outlets: {primary: 'landingpage/timeline', leftpanel: 'leftPanel/'+1, rightpanel: 'rightPanel/'+1}}]);
   }
 
-  // LoadFriendSection() {
-  //   this.loginService.setNextRouteName('shortcuts/friendsection');
-  //   this.router.navigate(['shortcuts/friendsection'])
-  // }
-
-  // ************************************************************************************************
   signOut(){
-    console.log('signOut');
     this.isUserLoggedIn = false;
     this.loginService.signOut();
   }
   
   resetVariables() {
-    this.allUserdata = [];
     this.myProfilePic = "";
+    this.allUserdata = [];
     this.friendRequests = [];
     this.friendSuggestions = [];
   }
@@ -191,6 +153,5 @@ export class HeaderComponent implements OnInit {
     this.addFriendSubscription.unsubscribe();
     this.setFriendsSubscription.unsubscribe();
     this.getProfileSubscription.unsubscribe();
-   // this.loginSubscription.unsubscribe();
   }
 }

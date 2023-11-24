@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RemoveFloatPipe implements PipeTransform {
 
-  transform(value: number, ...args: unknown[]): unknown {
+  transform (value: number): unknown {
     return Math.trunc(value);
   }
 

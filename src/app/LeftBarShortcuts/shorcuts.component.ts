@@ -16,8 +16,7 @@ export class ShorcutsComponent implements OnInit {
     this.activeInPage = false;
    }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onPagesLoad(nextRoute: string){
     this.loginService.setNextRouteName(nextRoute);

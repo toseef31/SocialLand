@@ -1,13 +1,5 @@
 <button [type]="type" (click)="showDialog()">Show</button>
 
-<!-- Template driven form -->
-<!-- <form (ngSubmit)="onSubmit(testForm)" #testForm="ngForm">
-    <input type="text" id="username" name="username" ngModel required>
-
-    <button type="submit">Submit</button>
-</form> -->
-
-<!-- Reactive form -->
 <form [formGroup]="signupFormGroup" (ngSubmit)="onSubmit()">
     <input type="text" id="username" name="username" formControlName="username">
     <p *ngIf="signupFormGroup.get('username')?.touched && !signupFormGroup.get('username')?.valid">

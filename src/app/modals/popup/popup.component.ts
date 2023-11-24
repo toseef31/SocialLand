@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 
 @Component({
   standalone: false,
@@ -8,7 +8,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 })
 
 // AfterViewInit, OnChanges, DoCheck, AfterContentChecked, AfterContentInit, AfterViewChecked, OnDestroy
-export class PopupComponent implements OnInit, OnDestroy {
+export class PopupComponent implements OnDestroy {
 
   @Input({ required: false }) description: any;
   @Input({ required: false }) headingText: any;
@@ -20,10 +20,6 @@ export class PopupComponent implements OnInit, OnDestroy {
   public setData(data: any) {
     this.headingText = data.title;
     this.description = data.description;
-  }
-
-  ngOnInit() {
-    console.log("popup: ngOnInit");
   }
 
   ngOnDestroy(): void {
