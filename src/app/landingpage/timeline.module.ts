@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { AuthGuardService } from '../services/authguard.service';
-import { DeactivateGuardService } from '../services/deactivateguard.service';
-
+import { AuthGuard } from '../services/authguard.service';
+import { deactivateGuard } from '../services/deactivateguard.service';
 import { ReversePipe } from '../shared/reverse.pipe';
 import { ClearspaceDirective } from '../shared/clearspace.directive';
 import { DropdownDirective } from '../shared/dropdown.directive';
@@ -16,26 +13,21 @@ import { TimelineComponent } from '../landingpage/timeline/timeline.component';
 import { CreateQuestionairComponent } from './create-questionair/create-questionair.component';
 import { CreatePageComponent } from '../LeftBarShortcuts/create-page/create-page.component';
 import { AllPostsComponent } from './all-posts/all-posts.component';
-import { AppRoutingModule } from '../app-routing.module';
-import { SharedModuleModule } from '../shared.module';
+import { SharedModule } from '../shared.module';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './groups/group/group.component';
-import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { ErrorpageComponent } from '../errorpage/errorpage.component';
-import { RouteResolverService } from '../services/route-resolver.service';
-import { ScrollServiceService } from '../services/scroll-service.service';
-import { ShortenPipe } from '../shared/shorten.pipe';
 
-//, resolve: {pageResolver: RouteResolverService}
+
 const timelineRoutes: Routes = [
   {
-    path: '', canActivate: [AuthGuardService], component: LandingpageComponent, children: [
-      { path: 'home', component: HomeComponent, canDeactivate: [DeactivateGuardService] },
+    path: '', canActivate: [AuthGuard], component: LandingpageComponent, children: [
+      { path: 'home', component: HomeComponent, canDeactivate: [deactivateGuard] },
       { path: 'timeline', component: TimelineComponent },
-      { path: 'create-questionair', component: CreateQuestionairComponent},
+      { path: 'create-questionair', component: CreateQuestionairComponent },
       {
         path: 'groups', component: GroupsComponent, children: [
-          { path: ':pageNo', component: GroupComponent} // Resolver
+          { path: ':pageNo', component: GroupComponent }
         ]
       }
     ]
@@ -45,20 +37,25 @@ const timelineRoutes: Routes = [
 ]
 
 @NgModule({
+  
+  declarations: [
+    HomeComponent,
+    LandingpageComponent,
+    TimelineComponent,
+    ReversePipe,
+    ClearspaceDirective,
+    DropdownDirective,
+    CreatePageComponent,
+    AllPostsComponent,
+    GroupsComponent,
+    GroupComponent,
+    CreateQuestionairComponent
+  ],
+  
   imports: [
-    // CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModuleModule,
+    SharedModule,
     RouterModule.forChild(timelineRoutes)
   ],
-  declarations: [HomeComponent, LandingpageComponent, TimelineComponent,
-    ReversePipe, ClearspaceDirective, DropdownDirective, CreatePageComponent,
-    AllPostsComponent, GroupsComponent, GroupComponent, CreateQuestionairComponent
-  ],
-  // providers:[
-  //   ScrollServiceService
-  // ],
   exports: [RouterModule]
 })
 export class TimelineModule { }

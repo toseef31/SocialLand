@@ -26,6 +26,7 @@ import { StoreModule } from '@ngrx/store';
 import { landingpageReducer } from './landingpage/landingpage.reducer';
 import { MultiFileUploadComponent } from './multi-file-upload/multi-file-upload.component';
 import { MainLayoutComponent } from './main_layout/main-layout.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { MainLayoutComponent } from './main_layout/main-layout.component';
     PropertyCheckDirective,
     ErrorpageComponent,
     MultiFileUploadComponent,
+    FileUploadComponent,
     MainLayoutComponent
   ],
 

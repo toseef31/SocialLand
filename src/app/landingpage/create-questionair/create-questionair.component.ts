@@ -1,14 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, SimpleChange } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
-import { ScrollServiceService } from '../../services/scroll-service.service';
-import { trigger, transition, animate, style, state, keyframes, group } from '@angular/animations'
+import { trigger, transition, animate, style, state, keyframes, group, AnimationEvent } from '@angular/animations'
 
 @Component({
   selector: 'app-create-questionair',
   templateUrl: './create-questionair.component.html',
   styleUrls: ['./create-questionair.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('changeDivSize', [
       state('initial', style({
@@ -90,7 +88,7 @@ import { trigger, transition, animate, style, state, keyframes, group } from '@a
 
 export class CreateQuestionairComponent implements OnInit {
 
-  createForm: FormGroup;
+  createForm!: FormGroup;
   elementType: number = 0;
   optionsTypes = [
     { id: 1, name: 'TextField' },
@@ -102,26 +100,21 @@ export class CreateQuestionairComponent implements OnInit {
     { id: 7, name: 'Picture' },
   ];
 
-  @ViewChild('selectedOption') selectedOption;
+  @ViewChild('selectedOption') selectedOption!: ElementRef;
 
-  animStarted(event) {
+  animStarted(event: AnimationEvent) {
     console.log(event);
   }
 
-  animDone(event) {
+  animDone(event: AnimationEvent) {
     console.log(event);
   }
-  //------------ Needed for production (AOT) build ------------------------
+
   get getQuestionairControls() {
     return (this.createForm.get('mainFormPanel') as FormArray).controls;
   }
 
-  // get QuestionairOptionControls() {
-  //   return (this.createForm.get('mainFormPanel')['controls'][f] as FormArray).controls;
-  // }
-  //------------ --------------------------------- ------------------------
-
-  constructor(private scrollService: ScrollServiceService, private changeDetector: ChangeDetectorRef) { }
+  constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.createForm = new FormGroup({
@@ -134,11 +127,6 @@ export class CreateQuestionairComponent implements OnInit {
       ]),
 
     })
-
-    //const skills = this.createForm.get('mainFormPanel')["controls"][0].controls.questionOptions.controls;
-    const skills = this.createForm.get('mainFormPanel')["controls"];
-    console.log(skills);
-    // this.AddNewForm();
   }
 
   ngAfterViewInit(): void {
@@ -146,12 +134,10 @@ export class CreateQuestionairComponent implements OnInit {
   }
 
   manualChangeDetect() {
-    console.log("manualChangeDetect");
     this.changeDetector.detectChanges();
   }
 
   AddNewForm() {
-    console.log("Adding new form ...");
     const control = new FormGroup({
       'question': new FormControl(null),
       'questionType': new FormControl(null),
@@ -160,7 +146,6 @@ export class CreateQuestionairComponent implements OnInit {
 
     (<FormArray>this.createForm.get('mainFormPanel')).push(control);
     this.changeDetector.detectChanges();
-    this.scrollService.scrollToBottom();
   }
 
   RemoveForm() {
@@ -171,15 +156,13 @@ export class CreateQuestionairComponent implements OnInit {
     (<FormArray>this.createForm.get('mainFormPanel')).removeAt(index);
   }
 
-  addMoreOption(questionIndex) {
-    console.log("Adding new option ... " + questionIndex);
+  addMoreOption(questionIndex: number) {
     const control = new FormControl(null);
     (<FormArray>this.createForm.get('mainFormPanel')["controls"][questionIndex].get('questionOptions')).push(control);
-    this.scrollService.scrollToBottom();
     this.changeDetector.detectChanges();
   }
 
-  removeOption(mainForIndex, optionIndex) {
+  removeOption(mainForIndex: number, optionIndex: number) {
     (<FormArray>this.createForm.get('mainFormPanel')["controls"][mainForIndex].get('questionOptions')).removeAt(optionIndex);
 
   }
@@ -187,9 +170,6 @@ export class CreateQuestionairComponent implements OnInit {
   submitQuestionair() {
     var arrayControl = this.createForm.get('mainFormPanel') as FormArray;
     console.log(arrayControl);
-    // for (let i= 0; i < arrayControl.length; i++){
-    //   console.log(arrayControl.controls[i]);
-    // }
   }
 
 }

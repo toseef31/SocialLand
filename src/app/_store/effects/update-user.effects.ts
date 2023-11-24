@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { updateUserAction } from "../actions/counter.actions";
-import { Observable, switchMap, tap, withLatestFrom } from "rxjs";
+import { tap, withLatestFrom } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngrx/store";
 import { userUpdateSelector } from "../selectors/counter.selector";
