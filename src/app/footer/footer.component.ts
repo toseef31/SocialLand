@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm, FormGroup, FormControl, Validators, FormArray, NgModelGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { NgForm, FormGroup, FormControl, Validators, FormArray, NgModelGroup, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-footer',
@@ -34,10 +33,10 @@ export class FooterComponent implements OnInit {
         'middlename': new FormControl(null),
         'lastname': new FormControl(null, Validators.required)
       }),
-      'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails),
+      'email': new FormControl(null, [Validators.required, Validators.email, this.forbiddenEmails()]),
       'secret': new FormControl(""),
       'gender': new FormControl('male'),
-      'comment': new FormControl('enter your suggestions'),
+      'comment': new FormControl('Enter your suggestions'),
       'hobbies': new FormArray([])
     })
   }
@@ -63,18 +62,18 @@ export class FooterComponent implements OnInit {
     return null;
   }
 
-  forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
-    const promise = new Promise<any>((res, rej) => {
-      setTimeout(() => {
-        if (control.value === 'test@test.com') res({ 'emailIsForbidden': true })
-        else res(null)
-
-      }, 1500);
-    });
-    return promise;
+  forbiddenEmails(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value === 'test@test.com') return { 'emailIsForbidden': true };
+      else return null;
+    }
   }
 
   // ************************* TEMPLATE DRIVEN FORM FUNCTIONS *****************************
+  get hobbiesArray(): FormArray {
+    return this.signupForm.get('hobbies') as FormArray;
+  }
+
   resetForm() {
     this.signupForm.reset();
   }
@@ -89,7 +88,7 @@ export class FooterComponent implements OnInit {
     this.email = this.loginForm.value.email;
   }
 
-  testRouteNav(nextRoute: string) {
+  testRouteNav() {
     this.router.navigate(['/footer'], { relativeTo: this.activatedRoute });
   }
 }
