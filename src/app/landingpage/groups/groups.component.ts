@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
   selector: 'app-groups',
@@ -8,13 +7,11 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 })
 export class GroupsComponent implements OnInit, OnDestroy {
 
-  constructor(private activatedRouter: ActivatedRoute, private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
   }
 }

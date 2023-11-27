@@ -16,44 +16,33 @@
                                         <input type="text" [(ngModel)]="searchText" value="">
                                         <br>
                                         <a [routerLink]="['/landingpage/groups/' + 2]">Do Nothing</a>
-                                        <br>
-                                        <!-- <p *ngIf="!allowEdit">Not ALLOWED :(</p>
-                                        <p *ngIf="allowEdit">ALLOWED :)</p> -->
                                     </div>
                                     <br>
 
                                     <p> {{groupStatus | async}} </p>
-                                <!-- <div *ngIf="renderAgain"> -->
                                     <div>
-                                        <!--  | filter:searchText ; let g = index -->
-                                        <!-- | shorten:selectedPageNo ; let g = index -->
-                                    <ul class="nearby-contct" style="list-style-type:none;" *ngFor="let group of groupsData | filter:searchText ; let g = index">
-                                      
-                                        <!-- <li *ngIf="g < maxLimit && g >= initialPage"> -->
-                                        <li>
-                                            <div class="card" style="width: 18rem;">
-                                                <img class="card-img-top"
-                                                    src="/assets/winkuLandingPage/images/FrontendWebAreas.png"
-                                                    alt="Card image cap">
-                                                <div class="card-body">
-                                                  <p class="card-text">{{group.groupName | uppercase}}</p>
-                                                  <p>{{group.createdAt | date: 'fullDate'}}</p>
+                                        <ul class="nearby-contct" style="list-style-type:none;"
+                                            *ngFor="let group of groupsData | filter:searchText ; let g = index">
+                                            <li>
+                                                <div class="card" style="width: 18rem;">
+                                                    <img class="card-img-top"
+                                                        src="/assets/winkuLandingPage/images/FrontendWebAreas.png"
+                                                        alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <p class="card-text">{{group.groupName | uppercase}}</p>
+                                                        <p>{{group.createdAt | date: 'fullDate'}}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
 
                                     <div class="downMiddle">
                                         <br>
-                                        <!-- [routerLink]="['/landingpage/groups/', page.no]"  -->
-                                        <!-- <a class="pointer" *ngFor = "let page of pageNo; let i = index" (click)="loadPage(page.no)"> 
-                                         {{page.no}} 
-                                        </a>  -->
-
-                                        <a class="pointer" *ngFor = "let page of pageNo; let i = index" (click)="setPageNo(page.no)"> 
-                                            {{page.no}} 
-                                        </a> 
+                                        <a class="pointer" *ngFor="let page of pageNo; let i = index"
+                                            (click)="setPageNo(page.no)">
+                                            {{page.no}}
+                                        </a>
                                     </div>
                                 </div>
                             </div>

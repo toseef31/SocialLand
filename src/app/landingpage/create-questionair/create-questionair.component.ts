@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
 import { trigger, transition, animate, style, state, keyframes, group, AnimationEvent } from '@angular/animations'
@@ -90,6 +90,7 @@ export class CreateQuestionairComponent implements OnInit {
 
   createForm!: FormGroup;
   elementType: number = 0;
+  questionOptions = [];
   optionsTypes = [
     { id: 1, name: 'TextField' },
     { id: 2, name: 'Radio' },
@@ -110,11 +111,7 @@ export class CreateQuestionairComponent implements OnInit {
     console.log(event);
   }
 
-  get getQuestionairControls() {
-    return (this.createForm.get('mainFormPanel') as FormArray).controls;
-  }
-
-  constructor(private changeDetector: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.createForm = new FormGroup({
@@ -125,16 +122,27 @@ export class CreateQuestionairComponent implements OnInit {
           "questionOptions": new FormArray([])
         })
       ]),
-
     })
   }
 
   ngAfterViewInit(): void {
-    this.changeDetector.detectChanges();
+    console.log(this.getQuestionairControls)
   }
 
-  manualChangeDetect() {
-    this.changeDetector.detectChanges();
+
+  get getQuestionairControls() {
+    return (this.createForm.get('mainFormPanel') as FormArray).controls;
+  }
+
+  get getQuestionOptionsControls(){
+    if (this.getQuestionairControls.length > 0){
+      for (let q = 0; q < this.getQuestionairControls.length; q++){
+        let option = this.getQuestionairControls[q].get("questionOptions");
+        if (option instanceof FormArray) return option.controls
+        else return null;
+      }
+    }
+    else return null;
   }
 
   AddNewForm() {
@@ -145,7 +153,7 @@ export class CreateQuestionairComponent implements OnInit {
     });
 
     (<FormArray>this.createForm.get('mainFormPanel')).push(control);
-    this.changeDetector.detectChanges();
+    // this.changeDetector.detectChanges();
   }
 
   RemoveForm() {
@@ -158,18 +166,35 @@ export class CreateQuestionairComponent implements OnInit {
 
   addMoreOption(questionIndex: number) {
     const control = new FormControl(null);
-    (<FormArray>this.createForm.get('mainFormPanel')["controls"][questionIndex].get('questionOptions')).push(control);
-    this.changeDetector.detectChanges();
+    const mainForm = this.createForm.get('mainFormPanel') as FormArray;
+
+    if (mainForm && mainForm.controls && mainForm["controls"][questionIndex]) {
+      const questionOptionControl = (mainForm["controls"][questionIndex].get('questionOptions')) as FormArray;
+      if (questionOptionControl) questionOptionControl.push(control);
+    }
+
+    // (<FormArray>this.createForm.get('mainFormPanel')["controls"][questionIndex].get('questionOptions')).push(control);
+    // this.changeDetector.detectChanges();
   }
 
   removeOption(mainForIndex: number, optionIndex: number) {
-    (<FormArray>this.createForm.get('mainFormPanel')["controls"][mainForIndex].get('questionOptions')).removeAt(optionIndex);
+    const mainForm = this.createForm.get('mainFormPanel') as FormArray;
 
+    if (mainForm && mainForm.controls) {
+      const questionOptionControl = (mainForm["controls"][mainForIndex].get('questionsOptions') as FormArray);
+      if (questionOptionControl) questionOptionControl.removeAt(optionIndex);
+    }
+
+    // (<FormArray>this.createForm.get('mainFormPanel')["controls"][mainForIndex].get('questionOptions')).removeAt(optionIndex);
   }
 
   submitQuestionair() {
     var arrayControl = this.createForm.get('mainFormPanel') as FormArray;
     console.log(arrayControl);
+  }
+
+  manualChangeDetect(): void{
+    console.log("Change detection ref calling...")
   }
 
 }

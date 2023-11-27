@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class GroupComponent implements OnInit, OnDestroy {
 
-  routeSubscription: Subscription;
+  routeSubscription!: Subscription;
   searchText: string = "";
 
   groupsData = [
@@ -47,7 +47,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   currentLoadedPage : number = 0;
   initialPage: number = 5;
   maxLimit: number = 0;
-  group: {no: number};
+  group!: { no: number };
   rightPanelNo: number = 0;
   selectedPageNo: number = 0;
 
@@ -62,13 +62,6 @@ export class GroupComponent implements OnInit, OnDestroy {
   constructor(private activatedRouter: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void { 
-
-    // this.activatedRouter.data.subscribe(
-    //   (data: any) => {
-    //     console.log(data['pageResolver']);
-    //   }
-    // );
-
     this.group = {
       no: this.activatedRouter.snapshot.params['pageNo']
     };
@@ -91,18 +84,16 @@ export class GroupComponent implements OnInit, OnDestroy {
     );
   }
 
-  loadPage(pageNo){
+  loadPage(pageNo: number){
     if (this.currentLoadedPage != pageNo)   this.renderAgain = false;
     this.router.navigate(['/landingpage/groups/'+ pageNo], {queryParams: {'limit': 5 * pageNo}});
   }
 
-  setPageNo(pageNo){
+  setPageNo(pageNo: number){
     this.selectedPageNo = pageNo;
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.routeSubscription.unsubscribe();
   }
 

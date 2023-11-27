@@ -35,8 +35,7 @@
                                     </div>
 
                                     <div formArrayName="questionOptions">
-                                        <div [@addOptions]
-                                            *ngFor="let form of createForm.get('mainFormPanel')?.['controls'][f]?.controls.questionOptions?.controls ; let q= index">
+                                        <div [@addOptions] *ngFor="let form of getQuestionOptionsControls ; let q= index">
                                             <div [ngSwitch]="selectedOption.value">
                                                 <div *ngSwitchCase="1" style="float: left;">
                                                     <label class="questionNo" [for]="q">{{q+1}}</label>
