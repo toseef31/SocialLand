@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { SocketService } from '../services/socket.service';
 import { SessionStorageService } from 'angular-web-storage';
 import { Friends } from '../models/friends.model';
-import { FriendRequest } from '../models/friend-request.mode';
 
 @Component({
   selector: 'app-header',

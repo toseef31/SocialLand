@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { LoginStatusService } from '../../services/loginstatus.service';
@@ -6,6 +6,7 @@ import { BackendConnector } from '../../services/backendconnector.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SocketService } from '../../services/socket.service';
 import { SessionStorageService } from 'angular-web-storage';
+import { Comments } from 'src/app/models/comments.model';
 
 @Component({
   selector: 'app-all-posts',
@@ -14,18 +15,18 @@ import { SessionStorageService } from 'angular-web-storage';
 })
 export class AllPostsComponent implements OnInit, OnDestroy {
 
-  getPostSubscription: Subscription;
-  getProfileSubscription: Subscription;
-  getLikeSubscription: Subscription;
-  getCommentSubscription: Subscription;
-  getReplySubscription: Subscription;
+  getPostSubscription!: Subscription;
+  getProfileSubscription!: Subscription;
+  getLikeSubscription!: Subscription;
+  getCommentSubscription!: Subscription;
+  getReplySubscription!: Subscription;
 
   postingFormGroup: FormGroup;
 
-  selectedUploadFile: File = null;
+  selectedUploadFile: File | null = null;
 
   previousPosts = [];
-  createcomments = [];
+  createcomments: Comments[] = [];
   filteredPosts = [];
 
   createpost: any;
@@ -35,7 +36,8 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   myProfilePic: any = "";
   allFriendsRequest: any = "";
 
-  @Input() showPostStatus: number = 0; // 0- All, 1- My Posts, 2- Friends Only, 3- Page Posts Only
+  // 0- All, 1- My Posts, 2- Friends Only, 3- Page Posts Only
+  @Input() showPostStatus: number = 0;
   receivedPostCount: number = 0;
   maxPostsId: number = 0;
   minPostId: number = 0;
@@ -44,7 +46,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   previousReplyId: number = 0;
 
   showLoadMoreButton: boolean = false;
-  loadMore: boolean = false; // used in pagination of posts
+  loadMore: boolean = false;
   commentReplyStatus: boolean = false;
   replyCommentStatus: boolean = false;
   wasMorePostLoaded: boolean = false;
@@ -54,12 +56,20 @@ export class AllPostsComponent implements OnInit, OnDestroy {
   commentValue: string = '';
   replyValue: string = '';
 
-  constructor(private route: Router,
+  @ViewChild('postIdField') postIdField!: ElementRef;
+  
+  constructor(
+    private route: Router,
     private loginService: LoginStatusService,
     public session: SessionStorageService,
     private backendService: BackendConnector,
     private formbuilder: FormBuilder,
-    private socketService: SocketService) {
+    private socketService: SocketService
+    ) {
+
+    this.postingFormGroup = this.formbuilder.group({
+      'desc': ['', [Validators.required]],
+    });
   }
 
 
@@ -67,11 +77,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     this.userId = parseInt(this.session.get('authUserId'));
     localStorage.setItem('routerUrl', '/landingpage/home');
 
-    this.postingFormGroup = this.formbuilder.group({
-      'desc': ['', [Validators.required]],
-    });
-
-    this.backendService.getMaxPostId().then(
+    this.backendService.getMaxPostId().subscribe(
       (maxPostId: any) => {
         this.maxPostsId = maxPostId + 1;
         this.backendService.getPost(this.maxPostsId);
@@ -79,28 +85,23 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     );
 
     this.backendService.getProfilePic(this.userId);
-    //set user profile pic in the header
     this.getProfileSubscription = this.backendService.setMyProfilePic.subscribe(
       (data: any) => {
         this.myProfilePic = '/assets/pics/noProfile.png';
-        if (data.profilePic != null) {
-          this.myProfilePic = data.profilePic;
-        }
+        if (data.profilePic != null) this.myProfilePic = data.profilePic;
       }
     )
 
     this.backendService.getPost(0);
     this.getPostSubscription = this.socketService.getPost().subscribe(
       (newpost: any) => {
-
         this.usernames = newpost.usernames;
         this.profilePics = newpost.profilepics;
         this.allFriendsRequest = newpost.allFriendRequest;
 
         const userPostsLength = newpost.userPostsLength;
 
-        if (newpost.posts.length == 0)
-          return;
+        if (newpost.posts.length == 0) return;
 
         if (!this.loadMore && newpost.status == "upload") {
           if (this.allFriendsRequest.length != 0) {
@@ -139,33 +140,26 @@ export class AllPostsComponent implements OnInit, OnDestroy {
         }
 
         if (!this.loadMore && newpost.currentUser_Id == this.session.get('authUserId') && newpost.status != "upload") {
-          //console.log("2222222");
-          if (userPostsLength > 5)
-            this.showLoadMoreButton = true;
-          //   console.log( this.createpost);
+          if (userPostsLength > 5)  this.showLoadMoreButton = true;
           this.createpost = newpost.posts;
           this.previousPosts = newpost.posts;
         }
 
         if (this.loadMore && newpost.currentUser_Id == this.session.get('authUserId')) {
-          //  console.log("3333333");
           this.createpost = this.previousPosts.concat(newpost.posts);
           this.previousPosts = this.previousPosts.concat(newpost.posts);
-          if (newpost.posts.length < 5) {
-            this.showLoadMoreButton = false;
-          }
+          if (newpost.posts.length < 5) this.showLoadMoreButton = false;
         }
 
-        //   console.log(this.createpost);
         this.backendService.getLike();
         this.backendService.getComment();
         this.backendService.getReply();
       });
 
+
     // * GET LIKES *****************************************************************************
     this.getLikeSubscription = this.socketService.getLikes().subscribe(
       (likes: any) => {
-        //  console.log(this.createpost);
         for (let post of this.createpost) {
           for (let totalLikes of likes.postTotalLikes) {
             if (totalLikes.post_id == post.post_id) {
@@ -176,17 +170,16 @@ export class AllPostsComponent implements OnInit, OnDestroy {
           }
 
           for (let like of likes.likedDisliked) {
-            if ((like.user_id == this.userId) && (like.post_id == post.post_id)) {
+            if ((like.user_id == this.userId) && (like.post_id == post.post_id)) 
               post.liked = like.likes;
-            }
 
-            if ((like.user_id == this.userId) && (like.post_id == post.post_id)) {
+            if ((like.user_id == this.userId) && (like.post_id == post.post_id)) 
               post.disliked = like.dislikes;
-            }
           }
         }
       });
 
+      
     // * GET COMMENTS *****************************************************************************
     this.getCommentSubscription = this.socketService.getComments().subscribe(
       (postcomments: any) => {
@@ -205,16 +198,17 @@ export class AllPostsComponent implements OnInit, OnDestroy {
           for (let comment of this.createcomments) {
 
             if (comment.post_id == post.post_id) {
-
               for (let pic of this.profilePics) {
                 if (pic.user_id == comment.user_id) {
-                  comment.profilePic = pic.picFile; break;
+                  comment.profilePic = pic.picFile;
+                  break;
                 }
               }
 
               for (let name of this.usernames) {
                 if (name.user_id == comment.user_id) {
-                  comment.username = name.username; break;
+                  comment.username = name.username;
+                  break;
                 }
               }
             }
@@ -261,12 +255,7 @@ export class AllPostsComponent implements OnInit, OnDestroy {
 
   public addMyPost(desc: string) {
     this.loadMore = false;
-    this.backendService.uploadPost(this.selectedUploadFile, desc, 0);
-    // if (this.createpost != null){
-    // this.backendService.uploadPost(this.selectedUploadFile, desc, this.createpost[0].post_id + 1);
-    // }
-    // else
-    //   this.backendService.uploadPost(this.selectedUploadFile, desc, this.maxPostsId);
+    if(this.selectedUploadFile) this.backendService.uploadPost(this.selectedUploadFile, desc, 0);
 
     this.isImageUploaded = false;
     this.imageSrc = "";
@@ -274,34 +263,32 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     this.postingFormGroup.reset();
   }
 
-  onImageUpload(event) {
+  onImageUpload(event: Event) {
     this.loadMore = false;
-    this.selectedUploadFile = <File>event.target.files[0];
 
-    if (event.target.files && event.target.files[0]) {
+    if (event && event.target instanceof HTMLInputElement && event.target.files && event.target.files.length > 0){
+      this.selectedUploadFile = <File>event.target.files[0];
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onload = e => this.imageSrc = reader.result as string;
       reader.readAsDataURL(file);
       this.isImageUploaded = true;
     }
-
-    //console.log(this.isImageUploaded );
   }
 
-  onPostLike(postId: number, isLiked: number) {
+  onPostLike(isLiked: number) {
     this.loadMore = false;
-    this.backendService.setLikeDislike(!isLiked, false, postId, this.previousPosts.length);
+    this.backendService.setLikeDislike(!isLiked, false, this.postIdField.nativeElement.value, this.previousPosts.length);
   }
 
-  onPostdisLike(postId: number, isDisliked: number) {
+  onPostdisLike(isDisliked: number) {
     this.loadMore = false;
-    this.backendService.setLikeDislike(false, !isDisliked, postId, this.previousPosts.length);
+    this.backendService.setLikeDislike(false, !isDisliked, this.postIdField.nativeElement.value, this.previousPosts.length);
   }
 
-  MainComment(event, postId: number, textArea: HTMLInputElement) {
+  MainComment(event: Event, postId: number, textArea: HTMLTextAreaElement) {
     this.loadMore = false;
-    if (event.keyCode == 13) {
+    if ((event as KeyboardEvent).code == '13') {
       this.backendService.setComment(postId, textArea.value, this.previousPosts.length);
       this.commentValue = "";
       this.commentReplyStatus = false;
@@ -310,9 +297,9 @@ export class AllPostsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ReplyComment(event, postId: number, commentId: number, textArea: HTMLInputElement) {
+  ReplyComment(event: Event, postId: number, commentId: number, textArea: HTMLTextAreaElement) {
     this.loadMore = false;
-    if (event.keyCode == 13) {
+    if ((event as KeyboardEvent).code == '13') {
       this.backendService.setReply(postId, commentId, textArea.value, this.previousPosts.length);
       this.replyValue = "";
       this.replyCommentStatus = false;

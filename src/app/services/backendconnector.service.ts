@@ -115,12 +115,8 @@ export class BackendConnector {
         );
     }
 
-    public getMaxPostId() {
-        this.http.get(this.baseUrl + "/maxpostid").subscribe(
-            (response: any) => {
-                return response;
-            }
-        );
+    public getMaxPostId(): Observable<BasicResponse> {
+        return this.http.get<BasicResponse>(this.baseUrl + "/maxpostid");
     }
 
     public getCurrentUserMaxPostId() {

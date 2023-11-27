@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { LandingpageComponent } from '../landingpage/landingpage.component';
 import { TimelineComponent } from '../landingpage/timeline/timeline.component';
 import { CreateQuestionairComponent } from './create-questionair/create-questionair.component';
-import { CreatePageComponent } from '../LeftBarShortcuts/create-page/create-page.component';
 import { AllPostsComponent } from './all-posts/all-posts.component';
 import { SharedModule } from '../shared.module';
 import { GroupsComponent } from './groups/groups.component';
@@ -45,7 +44,6 @@ const timelineRoutes: Routes = [
     ReversePipe,
     ClearspaceDirective,
     DropdownDirective,
-    CreatePageComponent,
     AllPostsComponent,
     GroupsComponent,
     GroupComponent,

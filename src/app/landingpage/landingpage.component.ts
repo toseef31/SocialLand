@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-// import { DeactivateGuardService } from '../services/deactivateguard.service';
-// import { Observable } from 'rxjs';
-// import { LoginStatusService } from '../services/loginstatus.service';
 
 @Component({
   selector: 'app-landingpage',
@@ -11,7 +8,5 @@ import { Component } from '@angular/core';
 
 
 export class LandingpageComponent {
-
   constructor() { }
-
 }

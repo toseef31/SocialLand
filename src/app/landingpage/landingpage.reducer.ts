@@ -1,4 +1,3 @@
-import { Action } from "@ngrx/store";
 import * as LandActions from "./landingpage.actions";
 
 const initialState = {
