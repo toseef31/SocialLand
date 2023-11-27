@@ -1,9 +1,9 @@
-import { Directive, Renderer2, OnInit, ElementRef, HostListener, HostBinding, Input } from '@angular/core';
+import { Directive, OnInit, HostListener, HostBinding, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appFontcontrol]'
+  selector: '[appFontsize]'
 })
-export class FontControlDirective implements OnInit {
+export class FontSizeDirective implements OnInit {
 
   @Input() defaultSize: string = '';
   @Input() defaultSizeType: string = 'px';
