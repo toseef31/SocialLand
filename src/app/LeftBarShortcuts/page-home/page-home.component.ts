@@ -29,7 +29,6 @@ export class PageHomeComponent implements OnInit {
     this.activatedRouter.data.subscribe(
       (data: any) => {
         this.pageData = data['pageResolver'][0];
-        console.log( this.pageData);
       }
     );
   }

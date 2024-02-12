@@ -28,7 +28,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("Notification destroyed");
   }
 
   getPopupInstance(){

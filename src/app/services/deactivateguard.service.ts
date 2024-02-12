@@ -11,7 +11,6 @@ class DeactivateGuard {
         currentState: RouterStateSnapshot,
         nextState: RouterStateSnapshot
     ) {
-        console.log("canDeactivate", comp);
         return true;
     }
 }

@@ -189,8 +189,7 @@ export class CreateQuestionairComponent implements OnInit {
   }
 
   submitQuestionair() {
-    var arrayControl = this.createForm.get('mainFormPanel') as FormArray;
-    console.log(arrayControl);
+    // var arrayControl = this.createForm.get('mainFormPanel') as FormArray;
   }
 
   manualChangeDetect(): void{

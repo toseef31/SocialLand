@@ -37,7 +37,6 @@ describe('HighlightDirective', () => {
     //  let div2 = divs[2];
     //  let div3 = divs[3];
     //  let div4 = divs[4];
-     console.log(div0)
      div0.triggerEventHandler('mouseenter', {});
      fixture.detectChanges();
      expect(div0.nativeElement.style.color).toBe('orange');

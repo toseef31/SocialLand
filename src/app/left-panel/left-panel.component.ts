@@ -14,12 +14,9 @@ export class LeftPanelComponent implements OnInit {
   constructor(private loginService: LoginStatusService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    // this.activeLeftPanel = parseInt(this.route.snapshot.paramMap.get('panelNo'));
-    // console.log('activeLeftPanel: '+ this.activeLeftPanel);
   }
 
   setNextRoute(nextRoute: string) {
-    console.log("route set");
     this.loginService.setNextRouteName(nextRoute);
     this.router.navigate([nextRoute]);
   }

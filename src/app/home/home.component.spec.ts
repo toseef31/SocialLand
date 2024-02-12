@@ -49,15 +49,10 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(buttons[0].nativeElement.textContent).toBe('Submitted');
 
-    setTimeout(() => {
-      // console.log("3333", buttons[0]);
-    }, 5000);
-
     let textMessages = el.queryAll(By.css('.msg'));
     expect(textMessages[0].nativeElement.textContent).toBe('Nothing found');
 
     setTimeout(() => {
-      // console.log("2222", buttons[0]);
       fixture.detectChanges();
 
     }, 3000);

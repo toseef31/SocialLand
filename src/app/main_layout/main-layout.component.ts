@@ -33,10 +33,10 @@ export class MainLayoutComponent implements OnInit {
       'myphotoes': new UntypedFormArray([])
     });
 
-    this.signupFormGroup.statusChanges.subscribe(
-      (status) => {
-        console.log("statusChanges: ", status);
-      });
+    // this.signupFormGroup.statusChanges.subscribe(
+    //   (status) => {
+    //     console.log("statusChanges: ", status);
+    //   });
   }
 
   ngOnInit(): void {
@@ -53,7 +53,6 @@ export class MainLayoutComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log("onSubmit: ", this.signupFormGroup);
   }
 
   public addExperince() {

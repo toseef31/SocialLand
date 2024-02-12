@@ -18,7 +18,6 @@ export class UpdateUserEffect {
             ofType(updateUserAction),
             withLatestFrom(this.store.select(userUpdateSelector)),
             tap((stateData) => {
-                console.log(stateData);
                 return this.http
                     .patch('http://localhost:4000/api/update-user/62baa93e7d6862b56b079d9f', { "name": stateData[1] }).subscribe();
             })

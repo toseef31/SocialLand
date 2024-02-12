@@ -43,7 +43,6 @@ describe('App Routing', () => {
     // it('should navigate to projection after clicking file upload', waitForAsync(() => {
     //     projectfixture.detectChanges();
     //     let links = homeEleDebug.queryAll(By.css('h5'));
-    //     console.log("links: ", links)
     //     links[0].nativeElement.click();
 
     //     projectfixture.whenStable().then(() => {

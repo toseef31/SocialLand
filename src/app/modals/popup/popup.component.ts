@@ -14,7 +14,6 @@ export class PopupComponent implements OnDestroy {
   @Input({ required: false }) headingText: any;
   
   constructor() {
-    console.log("popup: constructor");
   }
 
   public setData(data: any) {
@@ -23,7 +22,6 @@ export class PopupComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("popup: ngOnDestroy");
   }
 
 }

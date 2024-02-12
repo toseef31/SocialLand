@@ -49,7 +49,6 @@ export class FooterComponent implements OnInit {
   }
 
   reactiveSubmit() {
-    console.log(this.signupForm);
   }
 
   addHobby() {

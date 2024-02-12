@@ -47,7 +47,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.myFriendsSubscription = this.backendService.setMyFriends.subscribe(
       (friendsData: any) => {
         this.myFriends = friendsData;
-        console.log(friendsData);
       });
 
     this.unfriendSubscription = this.backendService.unfriend.subscribe(
@@ -64,7 +63,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
             }
             index++;
           }
-          console.log(unfriends);
         }
       });
 
@@ -107,7 +105,6 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   activateSelectedTab(tabname: string) {
     this.activatedTab = tabname;
-    console.log(this.activatedTab);
   }
 
   unfriend(senderId: number, receiverId: number) {

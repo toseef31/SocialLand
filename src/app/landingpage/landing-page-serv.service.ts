@@ -11,20 +11,6 @@ export class LandingPageServService {
 
   manageGroup(userActionType: string) {
 
-    switch (userActionType) {
-
-      case LandActions.ADD_GROUP:
-        console.log("add group here");
-      break;
-
-      case LandActions.DELETE_GROUP:
-        console.log("add group here");
-      break;
-
-      default:
-        console.error('invalid action type: '+ userActionType);
-    }
-
   }
 
 

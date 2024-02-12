@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   
   canDeactivateInterface(nextUrl: string): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(localStorage.getItem('routerUrl'));
     if (this.loginService.isUserLoggedIn() && nextUrl == "/") return false;
     else return true;
   }
