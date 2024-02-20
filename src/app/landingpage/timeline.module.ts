@@ -16,6 +16,7 @@ import { SharedModule } from '../shared.module';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './groups/group/group.component';
 import { ErrorpageComponent } from '../errorpage/errorpage.component';
+import { CreatePdfComponent } from './create-pdf/createPdf.component';
 
 
 const timelineRoutes: Routes = [
@@ -47,7 +48,8 @@ const timelineRoutes: Routes = [
     AllPostsComponent,
     GroupsComponent,
     GroupComponent,
-    CreateQuestionairComponent
+    CreateQuestionairComponent,
+    CreatePdfComponent
   ],
   
   imports: [

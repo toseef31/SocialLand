@@ -9,7 +9,7 @@ import {
   selector: 'datapoint',
   templateUrl: './datapoint.component.html',
   standalone: true,
-  styleUrl: './datapoint.component.scss',
+  styleUrls: ['./datapoint.component.scss'],
   imports: [ChartModule, CommonModule],
 })
 export class DatapointComponent implements OnChanges {

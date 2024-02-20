@@ -1,3 +1,10 @@
+@import '../node_modules/@smart-webcomponents-angular/chart/styles/smart.common.css';
+@import '../node_modules/@smart-webcomponents-angular/chart/styles/smart.base.css';
+@import '../node_modules/@smart-webcomponents-angular/chart/styles/smart.chart.css';
+
+#watermark {
+  display: none !important;
+}
 
 html,body{
 	font-family: "Muli", "Segoe Ui";
