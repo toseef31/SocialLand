@@ -134,7 +134,7 @@ export class CreateQuestionairComponent implements OnInit {
     return (this.createForm.get('mainFormPanel') as FormArray).controls;
   }
 
-  get getQuestionOptionsControls(){
+  get getQuestionOptionsControls(): any | null{
     if (this.getQuestionairControls.length > 0){
       for (let q = 0; q < this.getQuestionairControls.length; q++){
         let option = this.getQuestionairControls[q].get("questionOptions");

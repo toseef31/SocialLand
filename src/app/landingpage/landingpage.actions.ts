@@ -10,7 +10,7 @@ export class AddGroup implements Action {
 
 export class DeleteGroup implements Action {
    readonly type = DELETE_GROUP;
-   constructor(public payload: any) { }
+   constructor(public groupId: number) { }
 }
 
 export type groupActions = AddGroup | DeleteGroup;

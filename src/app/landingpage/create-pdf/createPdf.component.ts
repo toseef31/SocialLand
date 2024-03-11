@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
 @Component({
   selector: 'create-pdf',
   templateUrl: './createPdf.component.html',
-  styleUrls: ['./createPdf.component.css'],
+  styleUrls: ['./createPdf.component.scss'],
 })
 export class CreatePdfComponent implements OnInit {
   public pdfPages: Array<any> = [];
